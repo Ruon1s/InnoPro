@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {Text, View, StyleSheet, Dimensions} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 
 const styles = StyleSheet.create({

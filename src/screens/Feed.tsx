@@ -1,18 +1,28 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import WeatherInfo from '../components/WeatherInfo';
+import { fetchWeather } from '../store/weather/actions';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: StatusBar.currentHeight
   },
 });
 
 const Feed: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(position => {
+      dispatch(fetchWeather(position.coords.latitude, position.coords.longitude));
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Feed</Text>
+      <WeatherInfo />
     </View>
   );
 }

@@ -1,9 +1,13 @@
 import React from 'react';
-import MainNavigator from './src/navigators/TabNavigator';
+import TabNavigator from './src/navigators/TabNavigator';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 
 const App = () => {
   return (
-    <MainNavigator />
+    <Provider store={store}>
+      <TabNavigator />
+    </Provider>
   );
 }
 
