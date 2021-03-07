@@ -14,7 +14,7 @@ export const getLocation = () : ThunkAction<void, RootState, unknown, Action<str
             return;
         }
         let location = await Location.getCurrentPositionAsync({});
-        console.log('long' + location.coords.longitude + 'lati' + location.coords.latitude + 'uwuu');
+        console.log('lati' + location.coords.latitude + 'long' + location.coords.longitude);
 
         const toJSON = location;
 
