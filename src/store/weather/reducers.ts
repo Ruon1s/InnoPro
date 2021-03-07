@@ -48,5 +48,4 @@ const reducer = (state = initialState, action: WeatherActionTypes) => {
       return state;
   }
 }
-
 export default reducer;
