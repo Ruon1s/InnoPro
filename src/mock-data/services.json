@@ -1,0 +1,14 @@
+{
+  "services": [
+    {
+      "id": 1,
+      "name": "Dentist",
+      "Phone": 123123,
+      "Address": "Somewhere nearby",
+      "tags": [
+        "tooth",
+        "dentist"
+      ]
+    }
+  ]
+}

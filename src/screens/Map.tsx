@@ -1,16 +1,14 @@
 import React, {useEffect} from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
-import {useDispatch, useSelector} from "react-redux";
-import {fetchWeather} from "../store/weather/actions";
-import {getLocation} from "../store/location/actions";
-import {RootState} from "../store";
+import MapView, { Marker } from 'react-native-maps';
+import { useDispatch, useSelector } from "react-redux";
+import { getLocation } from "../store/location/actions";
+import { RootState } from "../store";
+import { reports } from '../mock-data/reports.json';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   map: {
     width: Dimensions.get('window').width,
@@ -20,13 +18,13 @@ const styles = StyleSheet.create({
 
 const Map: React.FC = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getLocation());
-
   }, []);
 
-
   const location = useSelector((state: RootState) => state.location);
+  
   return (
     <View style={styles.container}>
       <MapView
@@ -36,8 +34,17 @@ const Map: React.FC = () => {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
-
-          style={styles.map} />
+          style={styles.map}>
+            {reports.map(report => (
+              <Marker 
+                key={report.id}
+                coordinate={{
+                  latitude: report.location.latitude,
+                  longitude: report.location.longitude
+                }} 
+              />
+            ))}
+          </MapView>
     </View>
   );
 };

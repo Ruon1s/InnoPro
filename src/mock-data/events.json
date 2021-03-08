@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "name": "Crazy Cool Event",
+      "where": "Leppävaara",
+      "when": "This weekend!"
+    },
+    {
+      "id": 2,
+      "name": "Crazy Cool Event",
+      "where": "Leppävaara",
+      "when": "This weekend!"
+    },
+    {
+      "id": 3,
+      "name": "Crazy Cool Event",
+      "where": "Leppävaara",
+      "when": "This weekend!"
+    },
+    {
+      "id": 4,
+      "name": "Crazy Cool Event",
+      "where": "Leppävaara",
+      "when": "This weekend!"
+    }
+  ]
+}

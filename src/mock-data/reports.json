@@ -1,0 +1,22 @@
+{
+  "reports": [
+    {
+      "id": 1,
+      "type": "flaw",
+      "content": "Broken bus stop",
+      "location": {
+        "latitude": 60.220074,
+        "longitude": 24.812118
+      }
+    },
+    {
+      "id": 2,
+      "type": "observation",
+      "content": "Crazy gridlock at kehä 1",
+      "location": {
+        "latitude": 60.2120643,
+        "longitude": 24.8143736
+      }
+    }
+  ]
+}

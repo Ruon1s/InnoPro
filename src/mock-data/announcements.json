@@ -1,0 +1,29 @@
+{
+  "annoucements": [
+    {
+      "id": 1,
+      "title": "Annoucement 1",
+      "body": "Content of an announcement"
+    },
+    {
+      "id": 2,
+      "title": "Annoucement 2",
+      "body": "Content of an announcement"
+    },
+    {
+      "id": 3,
+      "title": "Annoucement 3",
+      "body": "Content of an announcement"
+    },
+    {
+      "id": 4,
+      "title": "Annoucement 4",
+      "body": "Content of an announcement"
+    },
+    {
+      "id": 5,
+      "title": "Annoucement 5",
+      "body": "Content of an announcement"
+    }
+  ]
+}
