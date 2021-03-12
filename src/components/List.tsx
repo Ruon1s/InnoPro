@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { Text, FlatList } from 'react-native';
 import Card from './Card';
 
 interface Props {

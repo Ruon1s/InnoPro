@@ -1,8 +1,14 @@
 import React from 'react';
-import { Text, View, StyleSheet, StatusBar, Dimensions, Button } from 'react-native';
+import { Text, View, StyleSheet, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-const { height } = Dimensions.get('window');
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import CustomButton from '../components/CustomButton';
+import Loading from '../components/Loading';
+import ErrorContainer from '../components/ErrorContainer';
+import { signOut } from '../store/user/actions';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList } from '../navigators/StackNavigator';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,19 +33,36 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 10,
   },
+  signOutContainer: {
+    position: 'absolute',
+    bottom: 0,
+  }
 });
 
-const Profile: React.FC = () => {
+interface Props {
+  navigation: StackNavigationProp<StackParamList, 'Main'>;
+}
+
+const Profile: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+  const { loading, errorMessage } = useSelector((state: RootState) => state.app);
+
   return (
+    loading ?
+    <Loading />
+    :
     <View style={styles.container}>
       <View style={styles.profilePicContainer}>
         <Ionicons name="person" size={100} />
       </View>
       <View style={styles.userInfo}>
-        <Text style={styles.titleText}>Name: John Doe</Text>
-        <Text style={styles.titleText}>Current Position: Leppävaara</Text>
-        <Text style={styles.titleText}>Joined: 07/03/2021</Text>
-        <Text style={styles.titleText}>Interests: beer, fast food</Text>
+        <Text style={styles.titleText}>Name: {user.fullName}</Text>
+        <Text style={styles.titleText}>Email: {user.email} </Text>
+        {errorMessage && <ErrorContainer errorMessage={errorMessage} />}
+        <View style={styles.signOutContainer}>
+          <CustomButton title="Sign out" onPress={() => dispatch(signOut(navigation))} transparent danger />
+        </View>
       </View>
     </View>
   );

@@ -1,11 +1,14 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Feed from '../screens/Feed';
 import Profile from '../screens/Profile';
 import Map from '../screens/Map';
 import Search from '../screens/Search';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLocation } from '../store/location/actions';
+import { RootState } from '../store';
+import { fetchWeather } from '../store/weather/actions';
 
 type BottomTabParamList = {
   Feed: undefined;
@@ -17,28 +20,37 @@ type BottomTabParamList = {
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const TabNavigator: React.FC = () => {
+  const dispatch = useDispatch();
+  const location = useSelector((state: RootState) => state.location);
+
+  useEffect(() => {
+    dispatch(getLocation());
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchWeather(location.coords.latitude, location.coords.longitude));
+  }, [location]);
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator 
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName: any;
+    <Tab.Navigator 
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName: any;
 
-            if (route.name === 'Feed') iconName = 'list';
-            if (route.name === 'Map') iconName = 'map';
-            if (route.name === "Search") iconName = 'search';
-            if (route.name === 'Profile') iconName = 'person';
+          if (route.name === 'Feed') iconName = 'list';
+          if (route.name === 'Map') iconName = 'map';
+          if (route.name === "Search") iconName = 'search';
+          if (route.name === 'Profile') iconName = 'person';
 
-            return <Ionicons name={iconName} color={color} size={size} />
-          },
-        })}
-      >
-        <Tab.Screen name="Feed" component={Feed} />
-        <Tab.Screen name="Map" component={Map} />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          return <Ionicons name={iconName} color={color} size={size} />
+        },
+      })}
+    >
+      <Tab.Screen name="Feed" component={Feed} />
+      <Tab.Screen name="Map" component={Map} />
+      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
   );
 }
 

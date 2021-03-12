@@ -1,23 +1,19 @@
-import React, {useEffect} from 'react';
-import TabNavigator from './src/navigators/TabNavigator';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './src/store';
-import firebase from "firebase/app";
 import "firebase/firestore"
-import {firebaseConfig} from "./src/utils/firebaseConfig";
-import {fetchWeather} from "./src/store/weather/actions";
-import { useDispatch } from 'react-redux';
-import {getLocation} from "./src/store/location/actions";
-
-if (firebase.apps.length === 0) {
-    firebase.initializeApp(firebaseConfig);
-    console.log('firebase initialized')
-}
+import MainNavigator from './src/navigators/MainNavigator';
+import { LogBox } from 'react-native';
 
 const App = () => {
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['Setting a timer for a long period of time', 'Remote debugger']); //Ignore unnecessary warning during dev
+  }, []);
+
   return (
     <Provider store={store}>
-      <TabNavigator />
+      <MainNavigator />
     </Provider>
   );
 };

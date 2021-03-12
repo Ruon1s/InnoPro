@@ -1,10 +1,27 @@
+import Constants from 'expo-constants';
+import firebase from 'firebase';
+import { UserState } from '../store/user/types';
+
 export const firebaseConfig = {
-    apiKey: process.env.FB_API_KEY,
-    authDomain: process.env.FB_AUTH_DOMAIN,
-    databaseURL: process.env.FB_DB_URL,
-    projectId: process.env.FB_PROJECT_ID,
-    storageBucket: process.env.FB_STORAGE_BUCKET,
-    messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
-    appId: process.env.FB_APP_ID,
-    measurementId: process.env.FB_MEASUREMENT_ID,
+    apiKey: Constants.manifest.extra.apiKey,
+    authDomain: Constants.manifest.extra.authDomain,
+    databaseURL: Constants.manifest.extra.databaseURL,
+    projectId: Constants.manifest.extra.projectId,
+    storageBucket: Constants.manifest.extra.storageBucket,
+    messagingSenderId: Constants.manifest.extra.messagingSenderId,
+    appId: Constants.manifest.extra.appId,
+    measurementId: Constants.manifest.extra.measurementId,
 };
+
+export const fireApp = firebase.initializeApp(firebaseConfig);
+
+const converter = <T>() => ({
+    toFirestore: (data: Partial<T>) => data,
+    fromFirestore: (snapshot: firebase.firestore.QueryDocumentSnapshot) => snapshot.data() as T,
+});
+
+const dataPoint = <T>(collectionPath: string) => firebase.firestore().collection(collectionPath).withConverter(converter<T>());
+
+export const db = {
+    users: dataPoint<UserState>('users')
+}

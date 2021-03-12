@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLocation } from "../store/location/actions";
 import { RootState } from "../store";
 import { reports } from '../mock-data/reports.json';
+import FloatingActionButton from '../components/FloatingActionButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,23 +29,24 @@ const Map: React.FC = () => {
   return (
     <View style={styles.container}>
       <MapView
-          region={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-          style={styles.map}>
-            {reports.map(report => (
-              <Marker 
-                key={report.id}
-                coordinate={{
-                  latitude: report.location.latitude,
-                  longitude: report.location.longitude
-                }} 
-              />
-            ))}
-          </MapView>
+        region={{
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+        style={styles.map}>
+        {reports.map(report => (
+          <Marker 
+            key={report.id}
+            coordinate={{
+              latitude: report.location.latitude,
+              longitude: report.location.longitude
+            }} 
+          />
+        ))}
+      </MapView>
+      <FloatingActionButton />
     </View>
   );
 };
