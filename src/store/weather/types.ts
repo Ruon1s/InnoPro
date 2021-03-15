@@ -34,13 +34,13 @@ export interface WeatherState {
         sunset: number;
     };
     name: string;
-}
+};
 
 export const FETCH_WEATHER = "FETCH_WEATHER";
 
 interface FetchWeatherAction {
     type: typeof FETCH_WEATHER;
     payload: WeatherState;
-}
+};
 
 export type WeatherActionTypes = FetchWeatherAction;
