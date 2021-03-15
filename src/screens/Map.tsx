@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../store";
 import Loading from "../components/Loading";
 import AddMarkerForm from "../components/AddMarkerForm";
+import { Ionicons } from '@expo/vector-icons';
 
 
 const styles = StyleSheet.create({
@@ -25,7 +26,6 @@ const styles = StyleSheet.create({
 });
 
 const Map: React.FC = () => {
-    const { loading, errorMessage } = useSelector((state: RootState) => state.app);
 
     const [visible, setVisible] = useState(false);
 
@@ -56,15 +56,14 @@ const dispatch = useDispatch();
           longitudeDelta: 0.01,
         }}
         style={styles.map}>
-        {reports.map(report => (
+
           <Marker
-            key={report.id}
-            coordinate={{
-              latitude: report.location.latitude,
-              longitude: report.location.longitude
+              title={'you'}
+              coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude
             }}
           />
-        ))}
       </MapView>
       <FloatingActionButton onPress={toggleOverlay} />
     </View>
