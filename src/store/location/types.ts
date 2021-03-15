@@ -1,7 +1,7 @@
 import {FETCH_WEATHER, WeatherState} from "../weather/types";
 
 export interface LocationState {
-    coords : {
+    coords: {
         latitude: number;
         longitude: number;
         altitude: number | null;
