@@ -18,12 +18,6 @@ const styles = StyleSheet.create({
 });
 
 const Map: React.FC = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getLocation());
-  }, []);
-
   const location = useSelector((state: RootState) => state.location);
   
   return (

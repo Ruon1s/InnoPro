@@ -9,3 +9,9 @@ export interface SignInValues {
   email: string;
   password: string;
 }
+
+export interface UpdateUserValues {
+  email: string;
+  fullName: string;
+  avatarUrl?: string | undefined;
+}

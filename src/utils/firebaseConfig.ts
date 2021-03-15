@@ -13,7 +13,9 @@ export const firebaseConfig = {
     measurementId: Constants.manifest.extra.measurementId,
 };
 
-export const fireApp = firebase.initializeApp(firebaseConfig);
+if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const converter = <T>() => ({
     toFirestore: (data: Partial<T>) => data,

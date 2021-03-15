@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
 import { SignInValues, SignUpValues } from "../../types";
 import { setErrorMessage, toggleLoading } from "../app/actions";
-import { SET_USER, UserActionTypes, UserState } from "./types";
+import { SET_USER, UPDATE_USER, UserActionTypes, UserState } from "./types";
 import firebase from 'firebase';
 import { db } from "../../utils/firebaseConfig";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -22,11 +22,7 @@ export const fetchUser = (
     }
   } catch (error) {
     navigation.replace('SignIn');
-    dispatch(setErrorMessage(error.message));
-
-    setTimeout(() => {
-      dispatch(setErrorMessage(undefined));
-    }, 3000);
+    dispatch(setErrorMessage(error.message, 5));
   }
 }
 
@@ -43,30 +39,19 @@ export const signIn = (
       const userInfo = (await db.users.doc(user.uid).get()).data();
 
       if (userInfo !== undefined) {
-        dispatch({ type: SET_USER, payload: userInfo });
         dispatch(toggleLoading(false));
+        dispatch({ type: SET_USER, payload: userInfo });
         navigation.replace('Main');
       } else {
         dispatch(toggleLoading(false));
-        dispatch(setErrorMessage('Could not find the user info'));
-        setTimeout(() => {
-          dispatch(setErrorMessage(undefined));
-        }, 3000);
+        dispatch(setErrorMessage('Could not find the user info', 5));
       }
     } else {
       dispatch(toggleLoading(false));
-      dispatch(setErrorMessage('Could not find the user'));
-      setTimeout(() => {
-        dispatch(setErrorMessage(undefined));
-      }, 3000);
+      dispatch(setErrorMessage('Could not find the user', 5));
     }
   } catch (error) {
-    dispatch(toggleLoading(false));
-    dispatch(setErrorMessage(error.message));
-
-    setTimeout(() => {
-      dispatch(setErrorMessage(undefined));
-    }, 3000);
+    dispatch(setErrorMessage(error.message, 5));
   }
 }
 
@@ -76,32 +61,27 @@ export const signUp = (
 ): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
   try {
     dispatch(toggleLoading(true));
-
-    const { user } = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password);
     
+    const { user } = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password);
+
     if (user) {
       await db.users.doc(user.uid).set({
         email: values.email,
         fullName: values.fullName,
         createdAt: Date.now(),
+        notificationToken: '',
       });
 
-       dispatch(toggleLoading(false));
-       navigation.replace('Main');
+      dispatch(toggleLoading(false));
+      dispatch({ type: SET_USER, payload: values });
+      navigation.replace('Permissions');
     } else {
       dispatch(toggleLoading(false));
-      dispatch(setErrorMessage('Something went wrong! Please try again'));
-      setTimeout(() => {
-        dispatch(setErrorMessage(undefined));
-      }, 3000);
+      dispatch(setErrorMessage('Something went wrong, please try again later.', 5));
     }
   } catch (error) {
     dispatch(toggleLoading(false));
-    dispatch(setErrorMessage(error.message));
-
-    setTimeout(() => {
-      dispatch(setErrorMessage(undefined));
-    }, 3000);
+    dispatch(setErrorMessage(error.message, 5));
   }
 }
 
@@ -122,10 +102,29 @@ export const signOut = (
     });
   } catch (error) {
     dispatch(toggleLoading(false));
-    dispatch(setErrorMessage(error.message));
-
-    setTimeout(() => {
-      dispatch(setErrorMessage(undefined));
-    }, 3000);
+    dispatch(setErrorMessage(error.message, 5));
   }
 } 
+
+export const updateUser = (
+  newUserInfo: Partial<UserState>
+): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+  try {
+    dispatch(toggleLoading(true));
+
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+      console.log(newUserInfo);
+      await db.users.doc(user.uid).set(newUserInfo, { merge: true });
+      dispatch({ type: UPDATE_USER, payload: newUserInfo });
+      dispatch(toggleLoading(false));
+    } else {
+      dispatch(toggleLoading(false));
+      dispatch(setErrorMessage('User not found', 5));
+    }
+  } catch (error) {
+    dispatch(toggleLoading(false));
+    dispatch(setErrorMessage(error.message, 5));
+  }
+}
