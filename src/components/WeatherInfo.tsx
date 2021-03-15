@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
@@ -41,7 +41,7 @@ const WeatherInfo: React.FC = () => {
         <View style={styles.container}>
           <View style={styles.left}>
             <Text style={styles.townName}> {weather.name} </Text>
-            <Text> {weather.weather[0].description} </Text>
+             <Text> {weather.weather[0].description} </Text>
             <Text>curr. {weather.main.temp} °C </Text>
             <Text>max. {weather.main.temp_max} °C </Text>
             <Text>min. {weather.main.temp_min} °C </Text>

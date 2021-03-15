@@ -12,7 +12,7 @@ interface Props {
 
 const InitialLoading: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../store";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,14 +21,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+interface Props {
+  onPress: (args: any) => void;
+}
 
-const FloatingActionButton: React.FC = () => {
+const FloatingActionButton: React.FC<Props> = ({onPress}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Animated.View style={styles.content}>
         <Ionicons name="add" size={30} />
       </Animated.View>
-    </TouchableOpacity> 
+    </TouchableOpacity>
   );
 }
 

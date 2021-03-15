@@ -1,11 +1,18 @@
-import React, {useEffect} from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import { useDispatch, useSelector } from "react-redux";
-import { getLocation } from "../store/location/actions";
-import { RootState } from "../store";
-import { reports } from '../mock-data/reports.json';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import MapView, {Marker} from 'react-native-maps';
+import {reports} from '../mock-data/reports.json';
 import FloatingActionButton from '../components/FloatingActionButton';
+import {Overlay} from 'react-native-elements';
+import * as Location from "expo-location";
+import {LocationAccuracy} from "expo-location";
+import {LocationState} from "../store/location/types";
+import {getLocation} from "../store/location/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../store";
+import Loading from "../components/Loading";
+import AddMarkerForm from "../components/AddMarkerForm";
+
 
 const styles = StyleSheet.create({
   container: {
@@ -18,18 +25,31 @@ const styles = StyleSheet.create({
 });
 
 const Map: React.FC = () => {
-  const dispatch = useDispatch();
+    const { loading, errorMessage } = useSelector((state: RootState) => state.app);
+
+    const [visible, setVisible] = useState(false);
+
+    const toggleOverlay = () => {
+        if(!visible){
+            setVisible(!visible)
+        } else {
+            setVisible(!visible);
+        }
+    };
+const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLocation());
   }, []);
 
-  const location = useSelector((state: RootState) => state.location);
-  
+ const location = useSelector((state: RootState) => state.location);
   return (
     <View style={styles.container}>
+        <AddMarkerForm visibility={visible} onBackdropPress={toggleOverlay}> </AddMarkerForm>
+
+
+
       <MapView
-        region={{
+        initialRegion={{
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
           latitudeDelta: 0.01,
@@ -37,16 +57,16 @@ const Map: React.FC = () => {
         }}
         style={styles.map}>
         {reports.map(report => (
-          <Marker 
+          <Marker
             key={report.id}
             coordinate={{
               latitude: report.location.latitude,
               longitude: report.location.longitude
-            }} 
+            }}
           />
         ))}
       </MapView>
-      <FloatingActionButton />
+      <FloatingActionButton onPress={toggleOverlay} />
     </View>
   );
 };
