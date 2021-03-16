@@ -15,32 +15,30 @@ export const fetchTransport = (
 ): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
     try {
         const query = gql`
-                    query GetStops($lati: int, $long: int){ 
-                      stopsByRadius(lat: $lati, lon: $long, radius: 250) {
-                        edges{
-                            node{
-                                stop{
-                                    gtfsId
-                                    name
+                    query GetStops($lat: Float!, $lon: Float!){ 
+                          stopsByRadius(lat: $lat, lon: $lon, radius: 1000) {
+                                edges{
+                                    node{
+                                        stop{
+                                            name
+                                        }
+                                        distance
+                                    }
                                 }
-                                distance
-                            }
-                        }
-                      }
-                    }
-                `;
-        client.query({
+                          }
+                    }`;
+        const nearestStations = client.query({
             query: query,
             variables: {
-                lati: latitude,
-                long: longitude
+                lat: parseFloat(latitude.toString()),
+                lon: parseFloat(longitude.toString())
             }
-        })
-            .then(result => console.log("DATAAA: " + JSON.stringify(result.data)));
+        });
+            //.then(result => console.log("DATAAA: " + JSON.stringify(result.data.stopsByRadius)));
 
-        const toJSON = "await nearestStations";
+        const data = await nearestStations;
 
-        dispatch({type: FETCH_TRANSPORT, payload: toJSON});
+        dispatch({type: FETCH_TRANSPORT, payload: data});
     } catch (error) {
         console.log(`Fetch Transport error: ${error.message}`);
     }

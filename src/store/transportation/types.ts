@@ -5,7 +5,6 @@ export interface TransportationState {
                 {
                     "node": {
                         "stop": {
-                            "gtfsId": string,
                             "name": string
                         },
                         "distance": number
