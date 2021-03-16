@@ -15,6 +15,7 @@ import AddMarkerForm from "../components/AddMarkerForm";
 import { Ionicons } from '@expo/vector-icons';
 
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -59,6 +60,7 @@ const dispatch = useDispatch();
 
           <Marker
               title={'you'}
+              image={require('../marker-icons/green_pin.png')}
               coordinate={{
               latitude: location.coords.latitude,
               longitude: location.coords.longitude
