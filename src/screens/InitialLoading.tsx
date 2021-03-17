@@ -14,13 +14,15 @@ const InitialLoading: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
+    const unsubscirbe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         dispatch(fetchUser(user.uid, navigation));
       } else {
         navigation.navigate('SignIn');
       }
-    })
+    });
+
+    return () => unsubscirbe();
   }, []);
 
   return (

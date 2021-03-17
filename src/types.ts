@@ -13,3 +13,9 @@ export interface SignInValues {
 export interface MarkerValues {
   description: string;
 }
+
+export interface UpdateUserValues {
+  email: string;
+  fullName: string;
+  avatarUrl?: string | undefined;
+}

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, FlatList } from 'react-native';
+import { Text, FlatList, Dimensions } from 'react-native';
 import Card from './Card';
+
+const { width } = Dimensions.get('window');
 
 interface Props {
   data: any[];
@@ -14,6 +16,9 @@ const List: React.FC<Props> = ({ data, horizontal }) => {
       keyExtractor={item => `${item.id}`}
       horizontal={horizontal}
       showsHorizontalScrollIndicator={false}
+      snapToAlignment="start"
+      snapToInterval={width}
+      decelerationRate="fast"
       renderItem={({ item }) => (
         <Card>
           <Text>{item.name || item.title}</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardTypeOptions, StyleSheet, Text, TextInput } from 'react-native';
+import { KeyboardTypeOptions, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useField } from 'formik';
 
 const styles = StyleSheet.create({
@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
   errorBorder: {
     borderColor: '#d73a4a',
   },
+  fullWidth: {
+    flex: 1,
+    flexDirection: 'column'
+  }
 });
 
 interface Props {
@@ -26,19 +30,24 @@ interface Props {
   placeholder: string;
   autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined;
   keyboardType?: KeyboardTypeOptions;
+  fullWidth?: boolean
 }
 
-const InputField: React.FC<Props> = ({ name, secure, placeholder, autoCapitalize = "none", keyboardType }) => {
+const InputField: React.FC<Props> = ({ name, secure, placeholder, autoCapitalize = "none", keyboardType, fullWidth }) => {
   const [field, meta, helpers] = useField(name);
   const showError = meta.touched && meta.error !== undefined;
 
   const inputFieldStyles = [
     styles.inputField,
-    showError && styles.errorBorder
+    showError && styles.errorBorder,
+  ]
+
+  const containerStyles = [
+    fullWidth && styles.fullWidth
   ]
 
   return (
-    <>
+    <View style={containerStyles}>
       <TextInput 
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
@@ -50,7 +59,7 @@ const InputField: React.FC<Props> = ({ name, secure, placeholder, autoCapitalize
         secureTextEntry={secure} 
       />
       {showError && <Text style={styles.errorText}> {meta.error} </Text>}
-    </>
+    </View>
   );
 }
 

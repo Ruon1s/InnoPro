@@ -43,7 +43,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
   const { loading, errorMessage } = useSelector((state: RootState) => state.app);
 
-  const handleSubmit = async (values: SignUpValues) => {
+  const handleSubmit = (values: SignUpValues) => {
     dispatch(signUp(values, navigation));
   }
 
@@ -52,22 +52,20 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
     <Loading />
     :
     <View style={styles.container}>
-      <>
-        <HeaderText text="Sign Up" />
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={values => handleSubmit(values)}
-        >
-          {({ handleSubmit }) => <SignUpForm handleSubmit={handleSubmit} />}
-        </Formik>
-        <CustomButton 
-          title="Already have an account? Sign In!" 
-          onPress={() => navigation.goBack()}
-          transparent={true}
-        />
-        {errorMessage && <ErrorContainer errorMessage={errorMessage} />}
-      </>
+      <HeaderText text="Sign Up" />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={values => handleSubmit(values)}
+      >
+        {({ handleSubmit }) => <SignUpForm handleSubmit={handleSubmit} />}
+      </Formik>
+      <CustomButton 
+        title="Already have an account? Sign In!" 
+        onPress={() => navigation.goBack()}
+        transparent={true}
+      />
+      {errorMessage && <ErrorContainer errorMessage={errorMessage} />}
     </View>
   );
 }

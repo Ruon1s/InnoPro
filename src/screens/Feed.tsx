@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import WeatherInfo from '../components/WeatherInfo';
 import {fetchWeather} from '../store/weather/actions';
 import {events} from '../mock-data/events.json';
@@ -8,6 +8,8 @@ import {annoucements} from '../mock-data/announcements.json';
 import List from '../components/List';
 import TransportationInfo from '../components/TransportationInfo';
 import {fetchTransport} from "../store/transportation/actions";
+import HeaderText from '../components/HeaderText';
+import { RootState } from '../store';
 
 const styles = StyleSheet.create({
     container: {

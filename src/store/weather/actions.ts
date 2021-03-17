@@ -18,11 +18,6 @@ export const fetchWeather = (
     dispatch(toggleLoading(false));
   } catch (error) {
     dispatch(toggleLoading(false));
-
-    dispatch(setErrorMessage(error.message));
-
-    setTimeout(() => {
-      dispatch(setErrorMessage(undefined));
-    }, 3000);
+    dispatch(setErrorMessage(error.message, 5));
   }
 }

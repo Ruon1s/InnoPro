@@ -19,7 +19,6 @@ export const getLocation = (): ThunkAction<void, RootState, unknown, Action<stri
                     (loc) => {
                         let i = 0;
                         i++;
-                        console.log(i.toString() + loc.coords.latitude);
                         dispatch({ type: GET_LOCATION, payload: loc });
                     },
                 )
