@@ -9,7 +9,6 @@ import {toggleLoading} from "../app/actions";
 
 export const getLocation = (): ThunkAction<void, RootState, unknown, Action<string>> =>
     async dispatch => {
-<<<<<<< HEAD
             try{
                 let { status } = await Location.requestPermissionsAsync();
                 if (status !== 'granted') {
@@ -29,23 +28,3 @@ export const getLocation = (): ThunkAction<void, RootState, unknown, Action<stri
             }
 
 };
-=======
-        try {
-            let {status} = await Location.requestPermissionsAsync();
-            if (status !== 'granted') {
-                console.log('Permission to access location was denied');
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            console.log('lati ' + location.coords.latitude + ' long ' + location.coords.longitude);
-
-            const toJSON = location;
-
-            dispatch({type: GET_LOCATION, payload: toJSON});
-        } catch (e) {
-            console.log(`location error: ${e.message}`);
-        }
-
-
-    }
->>>>>>> lauri
