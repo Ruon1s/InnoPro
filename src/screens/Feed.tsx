@@ -1,38 +1,53 @@
-import React from 'react';
-import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import React, {useEffect} from 'react';
+import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import WeatherInfo from '../components/WeatherInfo';
-import { events } from '../mock-data/events.json';
-import { annoucements } from '../mock-data/announcements.json';
+import {fetchWeather} from '../store/weather/actions';
+import {events} from '../mock-data/events.json';
+import {annoucements} from '../mock-data/announcements.json';
 import List from '../components/List';
 import TransportationInfo from '../components/TransportationInfo';
-import HeaderText from '../components/HeaderText';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import {fetchTransport} from "../store/transportation/actions";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight
-  },
+    container: {
+        flex: 1,
+        paddingTop: StatusBar.currentHeight
+    },
+    header: {
+        fontWeight: '700',
+        fontSize: 28,
+        margin: 10,
+    }
 });
 
 const Feed: React.FC = () => {
-  const user = useSelector((state: RootState) => state.user);
-  return (
-    <View style={styles.container}>
-      <HeaderText text={`Hello, ${user.fullName.split(' ')[0]}`} />
-      <ScrollView>
-        <HeaderText text="Weather" />
-        <WeatherInfo />
-        <HeaderText text="Announcements" />
-        <List horizontal={true} data={annoucements} />
-        <HeaderText text="Events" />
-        <List horizontal={true} data={events} />
-        <HeaderText text="Public Transportation" />
-        <TransportationInfo />
-      </ScrollView>
-    </View>
-  );
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            console.log(position);
+            dispatch(fetchWeather(position.coords.latitude, position.coords.longitude));
+            dispatch(fetchTransport(position.coords.latitude, position.coords.longitude))
+        });
+    }, []);
+    const user = useSelector((state: RootState) => state.user);
+
+    return (
+        <View style={styles.container}>
+            <HeaderText text={`Hello, ${user.fullName.split(' ')[0]}`} />
+            <ScrollView>
+                <Text style={styles.header}>Weather</Text>
+                <WeatherInfo/>
+                <Text style={styles.header}>Announcements</Text>
+                <List horizontal={true} data={annoucements}/>
+                <Text style={styles.header}>Events</Text>
+                <List horizontal={true} data={events}/>
+                <Text style={styles.header}>Public Transportation</Text>
+                <TransportationInfo/>
+            </ScrollView>
+        </View>
+    );
 }
 
 export default Feed;

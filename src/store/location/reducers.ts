@@ -1,7 +1,7 @@
 import {GET_LOCATION, LocationActionTypes, LocationState} from "./types"
 
-const initialState : LocationState = {
-    coords : {
+const initialState: LocationState = {
+    coords: {
         latitude: 0,
         longitude: 0,
         altitude: null,
@@ -15,7 +15,7 @@ const initialState : LocationState = {
 const reducer = (state = initialState, action: LocationActionTypes) => {
     switch (action.type) {
         case GET_LOCATION:
-            return { ...action.payload };
+            return {...action.payload};
         default:
             return state;
     }
