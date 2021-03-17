@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
     }
 });
 
+
 const WeatherInfo: React.FC = () => {
   const weather = useSelector((state: RootState) => state.weather);
   const { loading } = useSelector((state: RootState) => state.app);
-
   return (
     <Card>
       {loading ?
