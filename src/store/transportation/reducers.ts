@@ -1,12 +1,13 @@
 import {FETCH_TRANSPORT, TransportActionTypes, TransportationState} from "./types"
 
 const initialState: TransportationState = {
-    "data": {
+    "stations": {
         "stopsByRadius": {
             "edges": [
                 {
                     "node": {
                         "stop": {
+                            "gtfsId": '',
                             "name": ''
                         },
                         "distance": 0
@@ -14,6 +15,16 @@ const initialState: TransportationState = {
                 }
             ]
         }
+    },
+    "departures":{
+        "stop": {
+            "stoptimesWithoutPatterns": [
+                {
+                    "scheduledDeparture": 0,
+                    "serviceDay": 0
+                }
+            ]
+        },
     }
 };
 

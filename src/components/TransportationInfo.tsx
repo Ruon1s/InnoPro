@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     text: {
         marginLeft: 10,
     },
-    header:{
+    header: {
         textAlign: 'center',
         fontWeight: 'bold'
     }
@@ -27,13 +27,19 @@ const TransportationInfo: React.FC = () => {
     let stopNames: String[] = [];
     let stopDistances: String[] = [];
 
-    transport.data.stopsByRadius.edges.forEach(stop => {
+    transport.stations.stopsByRadius.edges.forEach(stop => {
             if (!stopNames.includes(stop.node.stop.name)) {
                 stopNames.push(stop.node.stop.name);
                 stopDistances.push(stop.node.distance.toString())
             }
         }
     );
+
+    let serviceDay = transport.departures.stop.stoptimesWithoutPatterns[0].serviceDay;
+    let departureTime = transport.departures.stop.stoptimesWithoutPatterns[0].scheduledDeparture;
+    let time = new Date();
+    time.setSeconds(serviceDay + departureTime);
+    console.log("Lähtö: " + time);
 
     return (
         <TouchableOpacity onPress={() => void Linking.openURL("https://reittiopas.hsl.fi/")}>
