@@ -77,7 +77,7 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) =>  {
                 {({handleSubmit}) => (
                 <View>
                 <InputField name='description' placeholder='Description' />
-                <Button title='Add marker' onPress={handleSubmit}/>
+                <CustomButton title="Add marker" onPress={handleSubmit} />
                 </View>
                     )}
             </Formik>

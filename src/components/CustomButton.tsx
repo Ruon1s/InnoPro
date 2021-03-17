@@ -1,11 +1,9 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-
-const { width } = Dimensions.get('window');
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    width,
+    width: '100%',
   },
   button: {
     margin: 10,
