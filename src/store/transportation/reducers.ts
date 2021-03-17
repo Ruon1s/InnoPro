@@ -7,7 +7,6 @@ const initialState: TransportationState = {
                 {
                     "node": {
                         "stop": {
-                            "gtfsId": '',
                             "name": ''
                         },
                         "distance": 0

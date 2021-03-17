@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Card from './Card';
 import {Ionicons} from '@expo/vector-icons';
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
+import * as Linking from 'expo-linking'
 
 const styles = StyleSheet.create({
     row: {
@@ -14,6 +15,10 @@ const styles = StyleSheet.create({
     },
     text: {
         marginLeft: 10,
+    },
+    header:{
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
 });
 
@@ -31,23 +36,26 @@ const TransportationInfo: React.FC = () => {
     );
 
     return (
-        <Card>
-            <View style={styles.row}>
-                <Ionicons name="bus" size={30}/>
-                <Text style={styles.text}>{stopNames[0] ?? ""}</Text>
-                <Text style={styles.text}>{stopDistances[0]}m away</Text>
-            </View>
-            <View style={styles.row}>
-                <Ionicons name="bus" size={30}/>
-                <Text style={styles.text}>{stopNames[1] ?? ""}</Text>
-                <Text style={styles.text}>{stopDistances[1]}m away</Text>
-            </View>
-            <View style={styles.row}>
-                <Ionicons name="bus" size={30}/>
-                <Text style={styles.text}>{stopNames[2] ?? ""}</Text>
-                <Text style={styles.text}>{stopDistances[2]}m away</Text>
-            </View>
-        </Card>
+        <TouchableOpacity onPress={() => void Linking.openURL("https://reittiopas.hsl.fi/")}>
+            <Card>
+                <Text style={styles.header}>Closest stations</Text>
+                <View style={styles.row}>
+                    <Ionicons name="bus" size={30}/>
+                    <Text style={styles.text}>{stopNames[0] ?? ""}</Text>
+                    <Text style={styles.text}>{stopDistances[0]}m away</Text>
+                </View>
+                <View style={styles.row}>
+                    <Ionicons name="bus" size={30}/>
+                    <Text style={styles.text}>{stopNames[1] ?? ""}</Text>
+                    <Text style={styles.text}>{stopDistances[1]}m away</Text>
+                </View>
+                <View style={styles.row}>
+                    <Ionicons name="bus" size={30}/>
+                    <Text style={styles.text}>{stopNames[2] ?? ""}</Text>
+                    <Text style={styles.text}>{stopDistances[2]}m away</Text>
+                </View>
+            </Card>
+        </TouchableOpacity>
     );
 };
 
