@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
 import { SignInValues, SignUpValues } from "../../types";
 import { setErrorMessage, toggleLoading } from "../app/actions";
-import { SET_USER, UPDATE_USER, UserActionTypes, UserState } from "./types";
+import { SET_USER, UPDATE_USER, UserState } from "./types";
 import firebase from 'firebase';
 import { db } from "../../utils/firebaseConfig";
 import { StackNavigationProp } from "@react-navigation/stack";

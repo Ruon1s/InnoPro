@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLocation } from '../store/location/actions';
 import { RootState } from '../store';
 import { fetchWeather } from '../store/weather/actions';
+import { fetchNews } from '../store/news/actions';
+import { fetchAnnouncements } from '../store/announcements/actions';
 
 type BottomTabParamList = {
   Feed: undefined;
@@ -25,6 +27,8 @@ const TabNavigator: React.FC = () => {
 
   useEffect(() => {
     dispatch(getLocation());
+    dispatch(fetchNews());
+    dispatch(fetchAnnouncements());
   }, []);
 
   useEffect(() => {

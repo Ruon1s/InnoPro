@@ -1,31 +1,42 @@
 import React from 'react';
-import { Text, FlatList, Dimensions } from 'react-native';
-import Card from './Card';
+import { FlatList, Dimensions, Text } from 'react-native';
+import { AnnouncementState } from '../store/announcements/types';
+import { NewsState } from '../store/news/types';
+import AnnouncementItem from './AnnouncementItem';
+import NewsItem from './NewsItem';
 
 const { width } = Dimensions.get('window');
 
 interface Props {
-  data: any[];
+  news?: NewsState;
+  announcements?: AnnouncementState;
   horizontal: boolean;
 }
 
-const List: React.FC<Props> = ({ data, horizontal }) => {
+const List: React.FC<Props> = ({ news, announcements, horizontal }) => {
+
+  const renderItem = (item: any) => {
+    if (news) {
+      return <NewsItem news={item} />
+    }
+
+    if (announcements) {
+      return <AnnouncementItem announcement={item} />
+    }
+
+    return null;
+  }
+
   return (
     <FlatList 
-      data={data}
-      keyExtractor={item => `${item.id}`}
+      data={news?.value || announcements?.value || undefined}
+      keyExtractor={item => `${item.ContentId}`}
       horizontal={horizontal}
       showsHorizontalScrollIndicator={false}
       snapToAlignment="start"
       snapToInterval={width}
       decelerationRate="fast"
-      renderItem={({ item }) => (
-        <Card>
-          <Text>{item.name || item.title}</Text>
-          <Text>{item.where || item.body}</Text>
-          <Text>{item.when}</Text>
-        </Card>
-      )}
+      renderItem={({ item }) => renderItem(item)}
     />
   );
 }

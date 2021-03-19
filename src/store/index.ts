@@ -4,7 +4,9 @@ import weatherReducer from './weather/reducers';
 import locationReducer from './location/reducers';
 import appReducer from './app/reducers';
 import userReducer from './user/reducers';
-import transportationReducer from './transportation/reducers'
+import transportationReducer from './transportation/reducers';
+import newsReducer from './news/reducer';
+import announcementsReducer from './announcements/reducers';
 
 
 const rootReducer = combineReducers({
@@ -12,8 +14,9 @@ const rootReducer = combineReducers({
   location: locationReducer,
   app: appReducer,
   user: userReducer,
-  transport: transportationReducer
-
+  transport: transportationReducer,
+  news: newsReducer,
+  announcements: announcementsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
