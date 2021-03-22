@@ -10,6 +10,7 @@ import TransportationInfo from '../components/TransportationInfo';
 import {fetchTransport} from "../store/transportation/actions";
 import HeaderText from '../components/HeaderText';
 import { RootState } from '../store';
+import {useTranslation} from 'react-i18next'
 
 const styles = StyleSheet.create({
     container: {
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
 
 const Feed: React.FC = () => {
     const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -37,15 +39,15 @@ const Feed: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderText text={`Hello, ${user.fullName.split(' ')[0]}`} />
+            <HeaderText text={`${t('hello')}, ${user.fullName.split(' ')[0]}`} />
             <ScrollView>
-                <Text style={styles.header}>Weather</Text>
+                <Text style={styles.header}>{t("weather")}</Text>
                 <WeatherInfo/>
-                <Text style={styles.header}>Announcements</Text>
+                <Text style={styles.header}>{t("announcements")}</Text>
                 <List horizontal={true} data={annoucements}/>
-                <Text style={styles.header}>Events</Text>
+                <Text style={styles.header}>{t("events")}</Text>
                 <List horizontal={true} data={events}/>
-                <Text style={styles.header}>Public Transportation</Text>
+                <Text style={styles.header}>{t("publicTransport")}</Text>
                 <TransportationInfo/>
             </ScrollView>
         </View>

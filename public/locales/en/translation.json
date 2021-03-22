@@ -1,0 +1,17 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "changeProfilePic": "Change profile picture",
+  "hello": "Hello",
+  "weather": "Weather",
+  "announcements": "Announcements",
+  "events": "Events",
+  "publicTransport": "Public Transportation",
+  "closestStations": "Closest stations",
+  "name": "Name",
+  "email": "Email",
+  "joined": "Joined",
+  "changeLanguage": "Change Language",
+  "editProfile": "Edit Profile",
+  "signOut": "Sign Out"
+}

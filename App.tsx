@@ -4,6 +4,7 @@ import { store } from './src/store';
 import "firebase/firestore"
 import MainNavigator from './src/navigators/MainNavigator';
 import { LogBox } from 'react-native';
+import './src/i18n'
 
 const App = () => {
 

@@ -17,6 +17,8 @@ import { Formik } from 'formik';
 import { UpdateUserValues } from '../types';
 import InputField from '../components/InputField';
 import * as yup from 'yup';
+import i18n from '../i18n';
+import {useTranslation} from 'react-i18next'
 
 const { width } = Dimensions.get('window');
 
@@ -115,7 +117,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
       let newValues = { ...values };
 
       if (userId) {
-        if (imageUri && user.avatarUrl !== imageUri) {       
+        if (imageUri && user.avatarUrl !== imageUri) {
           const storageRef = firebase.storage().ref(`/users/${userId}/avatar.jpg`);
           const image = await fetch(imageUri);
           const blob = await image.blob();
@@ -143,11 +145,21 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     setIsEditing(false);
   }
 
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = () => {
+    if(i18n.language === 'en'){
+      i18n.changeLanguage('fi');
+    }else {
+      i18n.changeLanguage('en');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profilePicContainer}>
         {imageUri ? <Image source={{ uri: imageUri }} style={styles.avatar} /> : <Ionicons name="person" size={100} />}
-        {isEditing && <CustomButton transparent title="Change profile picture" onPress={pickImage} />}
+        {isEditing && <CustomButton transparent title={t("changeProfilePic")} onPress={pickImage} />}
       </View>
       <View style={styles.userInfo}>
         {isEditing ?
@@ -159,20 +171,20 @@ const Profile: React.FC<Props> = ({ navigation }) => {
           {({ handleSubmit }) => (
             <>
               <View style={styles.rows}>
-                <Text>Name: </Text>
+                <Text>{t("name")}: </Text>
                 <InputField name="fullName" placeholder="Full name" fullWidth autoCapitalize="words" />
               </View>
               <View style={styles.rows}>
-                <Text>Email: </Text>
-                <InputField name="email" placeholder="Email" fullWidth keyboardType="email-address" /> 
+                <Text>{t("email")}: </Text>
+                <InputField name="email" placeholder="Email" fullWidth keyboardType="email-address" />
               </View>
               <View style={styles.signOutContainer}>
                 {loading ?
                 <Loading />
                 :
                 <>
-                  <CustomButton title="Save" onPress={handleSubmit} />
-                  <CustomButton title="Cancel" onPress={cancelEdit} transparent danger />
+                  <CustomButton title={t("save")} onPress={handleSubmit} />
+                  <CustomButton title={t("cancel")} onPress={cancelEdit} transparent danger />
                 </>}
               </View>
             </>
@@ -180,15 +192,16 @@ const Profile: React.FC<Props> = ({ navigation }) => {
         </Formik>
         :
         <>
-          <Text style={styles.titleText}>Name: {user.fullName}</Text>
-          <Text style={styles.titleText}>Email: {user.email} </Text>
-          <Text style={styles.titleText}>Joined: {new Date(user.createdAt).toDateString()}</Text>
+          <Text style={styles.titleText}>{t("name")}: {user.fullName}</Text>
+          <Text style={styles.titleText}>{t("email")}: {user.email} </Text>
+          <Text style={styles.titleText}>{t("joined")}: {new Date(user.createdAt).toDateString()}</Text>
         </>}
         <View style={styles.signOutContainer}>
           {!isEditing &&
-          <> 
-            <CustomButton title="Edit Profile" onPress={() => setIsEditing(true)} transparent />
-            <CustomButton title="Sign Out" onPress={() => dispatch(signOut(navigation))} transparent danger />
+          <>
+            <CustomButton title={t("changeLanguage")} onPress={() => changeLanguage()} transparent />
+            <CustomButton title={t("editProfile")} onPress={() => setIsEditing(true)} transparent />
+            <CustomButton title={t("signOut")} onPress={() => dispatch(signOut(navigation))} transparent danger />
           </>}
         </View>
         {errorMessage && <ErrorContainer errorMessage={errorMessage} />}
