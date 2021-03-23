@@ -8,10 +8,19 @@
   "events": "Events",
   "publicTransport": "Public Transportation",
   "closestStations": "Closest stations",
+  "away": "away",
   "name": "Name",
   "email": "Email",
   "joined": "Joined",
   "changeLanguage": "Change Language",
   "editProfile": "Edit Profile",
-  "signOut": "Sign Out"
+  "signOut": "Sign Out",
+  "feed": "Feed",
+  "map": "Map",
+  "search": "Search",
+  "profile": "Profile",
+  "current": "Current",
+  "humidity": "Humidity",
+  "pressure": "Pressure",
+  "wind": "Wind"
 }

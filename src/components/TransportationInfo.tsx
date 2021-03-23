@@ -5,6 +5,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
 import * as Linking from 'expo-linking'
+import {useTranslation} from "react-i18next";
 
 const styles = StyleSheet.create({
     row: {
@@ -41,24 +42,26 @@ const TransportationInfo: React.FC = () => {
     time.setSeconds(serviceDay + departureTime);
     console.log("Lähtö: " + time);
 
+    const { t, i18n } = useTranslation();
+
     return (
         <TouchableOpacity onPress={() => void Linking.openURL("https://reittiopas.hsl.fi/")}>
             <Card>
-                <Text style={styles.header}>Closest stations</Text>
+                <Text style={styles.header}>{t('closestStations')}</Text>
                 <View style={styles.row}>
                     <Ionicons name="bus" size={30}/>
                     <Text style={styles.text}>{stopNames[0] ?? ""}</Text>
-                    <Text style={styles.text}>{stopDistances[0]}m away</Text>
+                    <Text style={styles.text}>{stopDistances[0]}m {t('away')}</Text>
                 </View>
                 <View style={styles.row}>
                     <Ionicons name="bus" size={30}/>
                     <Text style={styles.text}>{stopNames[1] ?? ""}</Text>
-                    <Text style={styles.text}>{stopDistances[1]}m away</Text>
+                    <Text style={styles.text}>{stopDistances[1]}m {t('away')}</Text>
                 </View>
                 <View style={styles.row}>
                     <Ionicons name="bus" size={30}/>
                     <Text style={styles.text}>{stopNames[2] ?? ""}</Text>
-                    <Text style={styles.text}>{stopDistances[2]}m away</Text>
+                    <Text style={styles.text}>{stopDistances[2]}m {t('away')}</Text>
                 </View>
             </Card>
         </TouchableOpacity>

@@ -8,10 +8,19 @@
   "events": "Tapahtumat",
   "publicTransport": "Julkinen liikenne",
   "closestStations": "Lähimmät asemat",
+  "away": "päässä",
   "name": "Nimi",
   "email": "Sähköposti",
   "joined": "Liittynyt",
   "changeLanguage": "Vaihda Kieli",
   "editProfile": "Muokkaa Profiilia",
-  "signOut": "Kirjaudu Ulos"
+  "signOut": "Kirjaudu Ulos",
+  "feed": "Syöte",
+  "map": "Kartta",
+  "search": "Haku",
+  "profile": "Profiili",
+  "current": "Nykyinen",
+  "humidity": "Kosteus",
+  "pressure": "Ilmanpaine",
+  "wind": "Tuuli"
 }

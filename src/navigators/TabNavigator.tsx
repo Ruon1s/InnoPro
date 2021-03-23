@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLocation } from '../store/location/actions';
 import { RootState } from '../store';
 import { fetchWeather } from '../store/weather/actions';
+import {useTranslation} from "react-i18next";
 
 type BottomTabParamList = {
   Feed: undefined;
@@ -31,8 +32,14 @@ const TabNavigator: React.FC = () => {
     dispatch(fetchWeather(location.coords.latitude, location.coords.longitude));
   }, [location]);
 
+  const { t, i18n } = useTranslation();
+  const feedHeader = t('feed');
+  const mapHeader = t('map');
+  const searchHeader = t('search');
+  const profileHeader = t('profile');
+
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName: any;
@@ -46,10 +53,10 @@ const TabNavigator: React.FC = () => {
         },
       })}
     >
-      <Tab.Screen name="Feed" component={Feed} />
-      <Tab.Screen name="Map" component={Map} />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Feed" component={Feed} options={{title:feedHeader}}/>
+      <Tab.Screen name="Map" component={Map} options={{title:mapHeader}}/>
+      <Tab.Screen name="Search" component={Search} options={{title:searchHeader}}/>
+      <Tab.Screen name="Profile" component={Profile} options={{title:profileHeader}}/>
     </Tab.Navigator>
   );
 }
