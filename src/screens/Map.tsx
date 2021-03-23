@@ -13,6 +13,8 @@ import {RootState} from "../store";
 import Loading from "../components/Loading";
 import AddMarkerForm from "../components/AddMarkerForm";
 import { Ionicons } from '@expo/vector-icons';
+import {MarkerType} from "../types";
+import {getMarkers} from "../store/markers/actions";
 
 
 
@@ -38,15 +40,91 @@ const Map: React.FC = () => {
         }
     };
 const dispatch = useDispatch();
+const markers = useSelector((state: RootState) => state.markers);
+const location = useSelector((state: RootState) => state.location);
 
-  useEffect(() => {
-  }, []);
+console.log('markers' + markers.markers[1].description);
+/* const mapMarkers = () => {
+        markers.markers.map(marker => {
+                if (marker.color === 'red') {
+                    console.log('red marker');
+                    return (
+                        <Marker
+                            title={marker.description}
+                            coordinate={{
+                                latitude: marker.lat,
+                                longitude: marker.lon
+                            }}
+                            image={require('../marker-icons/red_pin.png')}
+                        />)
+                } else if (marker.color == 'yellow') {
+                    console.log('yellow marker');
+                    return (
+                        <Marker
+                            title={marker.description}
+                            coordinate={{
+                                latitude: marker.lat,
+                                longitude: marker.lon
+                            }}
+                            image={require('../marker-icons/yellow_pin.png')}
+                        />)
+                } else {
+                    console.log('green pin');
+                    return (
+                        <Marker
+                            title={marker.description}
+                            coordinate={{
+                                latitude: marker.lat,
+                                longitude: marker.lon
+                            }}
+                            image={require('../marker-icons/yellow_pin.png')}
+                        />)
+                }
+            }
+        )
+};
+*/
 
- const location = useSelector((state: RootState) => state.location);
+const renderMarker = (marker: MarkerType, index: number) => {
+  if(marker.color === 'red'){
+      return (
+          <Marker
+              key={index}
+              title={marker.description}
+              coordinate={{
+                  latitude: marker.lat,
+                  longitude: marker.lon
+              }}
+              image={require('../marker-icons/red_pin.png')}
+          />)
+  } else if(marker.color === 'yellow'){
+      console.log('yellow return');
+      return (
+          <Marker
+              key={index}
+              title={marker.description}
+              coordinate={{
+                  latitude: marker.lat,
+                  longitude: marker.lon
+              }}
+              image={require('../marker-icons/yellow_pin.png')}
+          />)
+  } else {
+      return (
+          <Marker
+              key={index}
+              title={marker.description}
+              coordinate={{
+                  latitude: marker.lat,
+                  longitude: marker.lon
+              }}
+              image={require('../marker-icons/green_pin.png')}
+          />)
+  }
+};
   return (
     <View style={styles.container}>
         <AddMarkerForm visibility={visible} onBackdropPress={toggleOverlay}> </AddMarkerForm>
-
 
 
       <MapView
@@ -58,18 +136,20 @@ const dispatch = useDispatch();
         }}
         style={styles.map}>
 
+          {markers.markers.map((marker, index) => (
+              renderMarker(marker, index)
+              ))}
           <Marker
               title={'you'}
-              image={require('../marker-icons/green_pin.png')}
+              image={require('../marker-icons/user_pin.png')}
               coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude
-            }}
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude
+              }}
           />
       </MapView>
       <FloatingActionButton onPress={toggleOverlay} />
     </View>
   );
-};
-
+}
 export default Map;
