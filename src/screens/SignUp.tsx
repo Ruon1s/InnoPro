@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 const validationSchema = yup.object().shape({
   email: yup.string().email().required('Email is required'),
   fullName: yup.string().required('Full name is required'),
-  password: yup.string().min(5).required('Password is required'),
+  password: yup.string().min(6).required('Password is required'),
   confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords does not match')
 });
 
