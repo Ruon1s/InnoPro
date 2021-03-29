@@ -5,6 +5,7 @@ import locationReducer from './location/reducers';
 import appReducer from './app/reducers';
 import userReducer from './user/reducers';
 import transportationReducer from './transportation/reducers'
+import eventReducer from './events/reducers'
 
 
 const rootReducer = combineReducers({
@@ -12,7 +13,9 @@ const rootReducer = combineReducers({
   location: locationReducer,
   app: appReducer,
   user: userReducer,
-  transport: transportationReducer
+  transport: transportationReducer,
+  events: eventReducer
+
 
 });
 
