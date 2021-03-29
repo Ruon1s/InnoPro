@@ -40,7 +40,6 @@ const TransportationInfo: React.FC = () => {
     let departureTime = transport.departures.stop.stoptimesWithoutPatterns[0].scheduledDeparture;
     let time = new Date();
     time.setSeconds(serviceDay + departureTime);
-    console.log("Lähtö: " + time);
 
     const { t, i18n } = useTranslation();
 

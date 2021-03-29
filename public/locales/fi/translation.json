@@ -22,5 +22,6 @@
   "current": "Nykyinen",
   "humidity": "Kosteus",
   "pressure": "Ilmanpaine",
-  "wind": "Tuuli"
+  "wind": "Tuuli",
+  "noEvents": "Alueellasi ei ole tapahtumia juuri nyt"
 }

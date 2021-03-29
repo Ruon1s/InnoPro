@@ -22,5 +22,6 @@
   "current": "Current",
   "humidity": "Humidity",
   "pressure": "Pressure",
-  "wind": "Wind"
+  "wind": "Wind",
+  "noEvents": "No events in the area right now"
 }
