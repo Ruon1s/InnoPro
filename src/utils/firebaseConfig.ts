@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import firebase from 'firebase';
-import { UserState } from '../store/user/types';
+import {UserState} from '../store/user/types';
 
 export const firebaseConfig = {
     apiKey: Constants.manifest.extra.apiKey,

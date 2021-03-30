@@ -41,7 +41,7 @@ const TransportationInfo: React.FC = () => {
     let time = new Date();
     time.setSeconds(serviceDay + departureTime);
 
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
 
     return (
         <TouchableOpacity onPress={() => void Linking.openURL("https://reittiopas.hsl.fi/")}>

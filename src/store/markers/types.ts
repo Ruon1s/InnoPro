@@ -1,6 +1,8 @@
 import {UserState} from "../user/types";
 
-
+/**
+ * typing for the state of markers, An array of marker objects
+ */
 export interface MarkerState {
     markers: {
         description: string;
@@ -14,7 +16,7 @@ export interface MarkerState {
 export const GET_MARKERS = "GET_MARKERS";
 
 
-interface GetMarkersActionType{
+interface GetMarkersActionType {
     type: typeof GET_MARKERS;
     payload: MarkerState;
 }

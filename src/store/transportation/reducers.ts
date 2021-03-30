@@ -16,7 +16,7 @@ const initialState: TransportationState = {
             ]
         }
     },
-    "departures":{
+    "departures": {
         "stop": {
             "stoptimesWithoutPatterns": [
                 {

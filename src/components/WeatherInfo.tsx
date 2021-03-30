@@ -29,10 +29,16 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Weather panel based on your location
+ * @constructor
+ */
 
 const WeatherInfo: React.FC = () => {
+    // get weather and loading state from redux
     const weather = useSelector((state: RootState) => state.weather);
     const {loading} = useSelector((state: RootState) => state.app);
+    //multi language
     const {t, i18n} = useTranslation();
     return (
         <Card>

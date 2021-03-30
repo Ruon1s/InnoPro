@@ -1,6 +1,6 @@
 import {GET_MARKERS, MarkerActionTypes, MarkerState} from "./types";
 
-
+// initial state for markers if they're not found
 const initialState: MarkerState = {
     markers: [
         {
@@ -12,6 +12,10 @@ const initialState: MarkerState = {
         },
     ]
 };
+
+/**
+ * basic redux reducer, returns an array of marker objects
+ */
 
 const reducer = (state = initialState, action: MarkerActionTypes) => {
     switch (action.type) {

@@ -10,7 +10,7 @@ import TransportationInfo from '../components/TransportationInfo';
 import EventInfo from '../components/EventInfo'
 import {fetchTransport} from "../store/transportation/actions";
 import HeaderText from '../components/HeaderText';
-import { RootState } from '../store';
+import {RootState} from '../store';
 import {useTranslation} from 'react-i18next'
 import {fetchEvents} from "../store/events/actions";
 
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 
 const Feed: React.FC = () => {
     const dispatch = useDispatch();
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -42,7 +42,7 @@ const Feed: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderText text={`${t('hello')}, ${user.fullName.split(' ')[0]}`} />
+            <HeaderText text={`${t('hello')}, ${user.fullName.split(' ')[0]}`}/>
             <ScrollView>
                 <Text style={styles.header}>{t("weather")}</Text>
                 <WeatherInfo/>

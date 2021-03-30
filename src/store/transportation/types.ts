@@ -14,7 +14,7 @@ export interface TransportationState {
             ]
         }
     },
-    "departures":{
+    "departures": {
         "stop": {
             "stoptimesWithoutPatterns": [
                 {
