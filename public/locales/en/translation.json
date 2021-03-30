@@ -23,5 +23,6 @@
   "humidity": "Humidity",
   "pressure": "Pressure",
   "wind": "Wind",
-  "noEvents": "No events in the area right now"
+  "noEvents": "No events in the area right now",
+  "noUrl": "No website for the event"
 }

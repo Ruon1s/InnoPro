@@ -23,5 +23,6 @@
   "humidity": "Kosteus",
   "pressure": "Ilmanpaine",
   "wind": "Tuuli",
-  "noEvents": "Alueellasi ei ole tapahtumia juuri nyt"
+  "noEvents": "Alueellasi ei ole tapahtumia juuri nyt",
+  "noUrl": "Tapahtumalla ei ole verkkosivua"
 }

@@ -4,8 +4,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../store";
 import Card from "./Card";
 import {useTranslation} from "react-i18next";
-import * as Linking from "expo-linking";
-import {annoucements} from "../mock-data/announcements.json";
 import EventList from "./EventList";
 
 const styles = StyleSheet.create({
@@ -32,7 +30,17 @@ const styles = StyleSheet.create({
 
 const EventInfo: React.FC = () => {
     const events = useSelector((state: RootState) => state.events);
-    let newEvent = {id: 0, name: "", location: "", desc: "", startTime: "", endTime:"", startTimeUTC: 0, endTimeUTC: 0, url: ""};
+    let newEvent = {
+        id: 0,
+        name: "",
+        location: "",
+        desc: "",
+        startTime: "",
+        endTime: "",
+        startTimeUTC: 0,
+        endTimeUTC: 0,
+        url: ""
+    };
     let eventsList: typeof newEvent[] = [];
     let hasEvents = false;
 
@@ -75,26 +83,48 @@ const EventInfo: React.FC = () => {
                 }
             }
 
-            const eventStartTime = events.data[i].start_time;
-            const eventTimeSplitWithLine = eventStartTime.split("-");
-            const eventTimeSplitWithT = eventTimeSplitWithLine[2].split("T");
-            const eventTimeSplitWithDots = eventTimeSplitWithT[1].split(":");
-            const eventTimeAsString = eventTimeSplitWithDots[0] + ":" + eventTimeSplitWithDots[1] + " " + eventTimeSplitWithT[0] + "." + eventTimeSplitWithLine[1] + "." + eventTimeSplitWithLine[0];
+            let eventStartTime = "";
+            let eventTimeAsString = "";
+            let eventStartTimeAsDate = 0;
+            if (events.data[i].start_time != null) {
+                eventStartTime = events.data[i].start_time;
+                const eventTimeSplitWithLine = eventStartTime.split("-");
+                const eventTimeSplitWithT = eventTimeSplitWithLine[2].split("T");
+                if (eventTimeSplitWithT[1] != undefined) {
+                    const eventTimeSplitWithDots = eventTimeSplitWithT[1].split(":");
+                    eventTimeAsString = eventTimeSplitWithDots[0] + ":" + eventTimeSplitWithDots[1] + " " + eventTimeSplitWithT[0] + "." + eventTimeSplitWithLine[1] + "." + eventTimeSplitWithLine[0];
+                    eventStartTimeAsDate = Date.UTC(Number(eventTimeSplitWithLine[0]), Number(eventTimeSplitWithLine[1]), Number(eventTimeSplitWithT[0]), Number(eventTimeSplitWithDots[1]), Number(eventTimeSplitWithDots[0]));
+                } else {
+                    eventTimeAsString = eventTimeSplitWithT[0] + "." + eventTimeSplitWithLine[1] + "." + eventTimeSplitWithLine[0];
+                    eventStartTimeAsDate = Date.UTC(Number(eventTimeSplitWithLine[0]), Number(eventTimeSplitWithLine[1]), Number(eventTimeSplitWithT[0]));
+                }
+            }
 
-            const eventEndTime = events.data[i].end_time;
-            const eventEndTimeSplitWithLine = eventEndTime.split("-");
-            const eventEndTimeSplitWithT = eventEndTimeSplitWithLine[2].split("T");
-            const eventEndTimeSplitWithDots = eventEndTimeSplitWithT[1].split(":");
-            const eventEndTimeAsString = eventEndTimeSplitWithDots[0] + ":" + eventEndTimeSplitWithDots[1] + " " + eventEndTimeSplitWithT[0] + "." + eventEndTimeSplitWithLine[1] + "." + eventEndTimeSplitWithLine[0];
 
-            const eventStartTimeAsDate = Date.UTC(Number(eventTimeSplitWithLine[0]), Number(eventTimeSplitWithLine[1]), Number(eventTimeSplitWithT[0]), Number(eventTimeSplitWithDots[1]), Number(eventTimeSplitWithDots[0]));
-            const eventEndTimeAsDate = Date.UTC(Number(eventEndTimeSplitWithLine[0]), Number(eventEndTimeSplitWithLine[1]), Number(eventEndTimeSplitWithT[0]), Number(eventEndTimeSplitWithDots[1]), Number(eventEndTimeSplitWithDots[0]));
+            let eventEndTime = "";
+            let eventEndTimeAsString = "";
+            let eventEndTimeAsDate = 0;
+            if (events.data[i].end_time != null) {
+                eventEndTime = events.data[i].end_time;
+                console.log(i + " : " + eventEndTime)
+                const eventEndTimeSplitWithLine = eventEndTime.split("-");
+                const eventEndTimeSplitWithT = eventEndTimeSplitWithLine[2].split("T");
+                if (eventEndTimeSplitWithT[1] != undefined) {
+                    const eventEndTimeSplitWithDots = eventEndTimeSplitWithT[1].split(":");
+                    eventEndTimeAsString = eventEndTimeSplitWithDots[0] + ":" + eventEndTimeSplitWithDots[1] + " " + eventEndTimeSplitWithT[0] + "." + eventEndTimeSplitWithLine[1] + "." + eventEndTimeSplitWithLine[0];
+                    eventEndTimeAsDate = Date.UTC(Number(eventEndTimeSplitWithLine[0]), Number(eventEndTimeSplitWithLine[1]), Number(eventEndTimeSplitWithT[0]), Number(eventEndTimeSplitWithDots[1]), Number(eventEndTimeSplitWithDots[0]));
+                } else {
+                    eventEndTimeAsString = eventEndTimeSplitWithT[0] + "." + eventEndTimeSplitWithLine[1] + "." + eventEndTimeSplitWithLine[0];
+                    eventEndTimeAsDate = Date.UTC(Number(eventEndTimeSplitWithLine[0]), Number(eventEndTimeSplitWithLine[1]), Number(eventEndTimeSplitWithT[0]));
+                }
+            }
 
             const currentDateAsString = new Date;
             const currentDate = Date.now();
 
-/*            console.log(i + " Event end time: " + eventEndTimeAsDate+ " current time: " + currentDate);
-            console.log(i + " Event end time as String: " + eventEndTimeAsString+ " current time as String: " + currentDateAsString);*/
+            console.log(i + " Event name: " + eventName);
+            console.log(i + " Event end time: " + eventEndTimeAsDate + " current time: " + currentDate);
+            console.log(i + " Event end time as String: " + eventEndTimeAsString + " current time as String: " + currentDateAsString);
 
             if (eventEndTimeAsDate > currentDate) {
                 newEvent = {
@@ -125,19 +155,7 @@ const EventInfo: React.FC = () => {
 
     if (hasEvents) {
         return (
-/*            <TouchableOpacity onPress={() => eventsList[0].url != "" ? Linking.openURL(eventsList[0].url) : console.log("No url for event")}>
-                <Card>
-                    <Text style={styles.header}>{eventsList[0].name}</Text>
-
-                    <Text>{eventsList[0].location}</Text>
-                    <Text>{eventsList[0].startTime} - {eventsList[0].endTime}</Text>
-
-                    <Text style={styles.bottom} numberOfLines={3}>{eventsList[0].desc}</Text>
-                </Card>
-            </TouchableOpacity>*/
-
             <EventList horizontal={true} data={eventsList}/>
-
         );
     } else {
         return (
