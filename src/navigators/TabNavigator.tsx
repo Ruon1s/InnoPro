@@ -10,6 +10,8 @@ import { getLocation } from '../store/location/actions';
 import { RootState } from '../store';
 import { fetchWeather } from '../store/weather/actions';
 import {useTranslation} from "react-i18next";
+import {getMarkers} from "../store/markers/actions";
+
 
 type BottomTabParamList = {
   Feed: undefined;
@@ -23,14 +25,21 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 const TabNavigator: React.FC = () => {
   const dispatch = useDispatch();
   const location = useSelector((state: RootState) => state.location);
+  const markers = useSelector((state: RootState) => state.markers);
 
   useEffect(() => {
     dispatch(getLocation());
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {if (location.coords !== undefined) {
     dispatch(fetchWeather(location.coords.latitude, location.coords.longitude));
+  }
   }, [location]);
+
+      useEffect(() => {
+          dispatch(getMarkers());
+      }, []);
+
 
   const { t, i18n } = useTranslation();
   const feedHeader = t('feed');

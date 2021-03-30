@@ -19,3 +19,11 @@ export interface UpdateUserValues {
   fullName: string;
   avatarUrl?: string | undefined;
 }
+
+export interface MarkerType {
+  description: string;
+  lon: number;
+  lat: number;
+  timestamp: string;
+  color: string;
+}

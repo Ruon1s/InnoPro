@@ -6,6 +6,7 @@ import appReducer from './app/reducers';
 import userReducer from './user/reducers';
 import transportationReducer from './transportation/reducers'
 import eventReducer from './events/reducers'
+import markerReducer from './markers/reducers'
 
 
 const rootReducer = combineReducers({
@@ -14,10 +15,10 @@ const rootReducer = combineReducers({
   app: appReducer,
   user: userReducer,
   transport: transportationReducer,
-  events: eventReducer
-
-
-});
+  events: eventReducer,
+  markers: markerReducer,
+}
+)
 
 export type RootState = ReturnType<typeof rootReducer>;
 

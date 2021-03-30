@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Animated, Text, TextInput, useWindowDimensions, View,} from 'react-native';
 import {Overlay, Input, Button} from "react-native-elements";
 import {useSelector} from "react-redux";
+import {newMarker} from "../store/markers/actions";
 import {RootState} from "../store";
 // @ts-ignore
 import RadioButtonRN from "radio-buttons-react-native"
@@ -48,11 +49,25 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) =>  {
         },
 
     ];
+
+
     const handleSubmit = async (values: MarkerValues) => {
         console.log('handlesubmit values: ' +  values.description + 'selected radiobutton value: ' + selected.label);
+        let date = new Date();
+        const stringDate = date.toLocaleDateString();
+        console.log(stringDate);
+
         //do all the stuff here with form data,
         //values.x is from textfield(s)
         //selected.x is from the radiogroup
+        const markerValues = {
+            description: values.description,
+            lon: location.coords.longitude,
+            lat: location.coords.latitude,
+            color: selected.color,
+            timestamp: stringDate,
+        };
+        await newMarker(markerValues);
         onBackdropPress()
     };
 
