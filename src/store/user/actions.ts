@@ -117,7 +117,6 @@ export const updateUser = (
     const user = firebase.auth().currentUser;
 
     if (user) {
-      console.log(newUserInfo);
       await db.users.doc(user.uid).set(newUserInfo, { merge: true });
       dispatch({ type: UPDATE_USER, payload: newUserInfo });
       dispatch(toggleLoading(false));

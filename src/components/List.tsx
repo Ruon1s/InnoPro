@@ -1,5 +1,7 @@
+//Flatlist for mainly the sideways scrolling stuff
+
 import React from 'react';
-import { FlatList, Dimensions, Text } from 'react-native';
+import { FlatList, Dimensions } from 'react-native';
 import { AnnouncementState } from '../store/announcements/types';
 import { NewsState } from '../store/news/types';
 import AnnouncementItem from './AnnouncementItem';
@@ -15,7 +17,7 @@ interface Props {
 
 const List: React.FC<Props> = ({ news, announcements, horizontal }) => {
 
-  const renderItem = (item: any) => {
+  const renderItem = (item: any): JSX.Element | null => {
     if (news) {
       return <NewsItem news={item} />
     }

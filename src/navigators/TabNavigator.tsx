@@ -11,12 +11,14 @@ import { RootState } from '../store';
 import { fetchWeather } from '../store/weather/actions';
 import { fetchNews } from '../store/news/actions';
 import { fetchAnnouncements } from '../store/announcements/actions';
+import AdminPanel from '../screens/AdminPanel';
 
 type BottomTabParamList = {
   Feed: undefined;
   Map: undefined;
   Search: undefined;
   Profile: undefined;
+  Admin: undefined;
 }
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -43,7 +45,8 @@ const TabNavigator: React.FC = () => {
 
           if (route.name === 'Feed') iconName = 'list';
           if (route.name === 'Map') iconName = 'map';
-          if (route.name === "Search") iconName = 'search';
+          if (route.name === 'Search') iconName = 'search';
+          if (route.name === 'Admin') iconName = 'hammer';
           if (route.name === 'Profile') iconName = 'person';
 
           return <Ionicons name={iconName} color={color} size={size} />
@@ -53,6 +56,7 @@ const TabNavigator: React.FC = () => {
       <Tab.Screen name="Feed" component={Feed} />
       <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Admin" component={AdminPanel} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

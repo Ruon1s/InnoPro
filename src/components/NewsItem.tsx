@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 import { News } from '../store/news/types';
 import { formatDate, removeHTMLTags } from '../utils/helpers';
 import Card from './Card';
-import Loading from './Loading';
 
 const styles = StyleSheet.create({
   container: {

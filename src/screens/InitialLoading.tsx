@@ -18,7 +18,7 @@ const InitialLoading: React.FC<Props> = ({ navigation }) => {
       if (user) {
         dispatch(fetchUser(user.uid, navigation));
       } else {
-        navigation.navigate('SignIn');
+        navigation.replace('SignIn');
       }
     });
 

@@ -43,7 +43,7 @@ const SignIn: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
   const { loading, errorMessage } = useSelector((state: RootState) => state.app);
 
-  const handleSubmit = async (values: SignInValues) => {
+  const handleSubmit = (values: SignInValues) => {
     dispatch(signIn(values, navigation));
   }
 

@@ -1,3 +1,6 @@
+//Firebase configuration and initializing the firebase.
+//Abstraction for the firestore to use with typescript
+
 import Constants from 'expo-constants';
 import firebase from 'firebase';
 import { UserState } from '../store/user/types';
@@ -25,5 +28,5 @@ const converter = <T>() => ({
 const dataPoint = <T>(collectionPath: string) => firebase.firestore().collection(collectionPath).withConverter(converter<T>());
 
 export const db = {
-    users: dataPoint<UserState>('users')
+    users: dataPoint<UserState>('users'),
 }
