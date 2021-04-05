@@ -5,6 +5,7 @@ import MainNavigator from './src/navigators/MainNavigator';
 import { LogBox } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { Subscription } from '@unimodules/core';
+import './src/i18n';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -35,11 +36,11 @@ const App = () => {
     }
   }, []);
 
-  return (
-    <Provider store={store}>
-      <MainNavigator />
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <MainNavigator/>
+        </Provider>
+    );
 };
 
 export default App;

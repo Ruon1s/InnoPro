@@ -1,5 +1,6 @@
 import {GET_LOCATION, LocationActionTypes, LocationState} from "./types"
 
+//initial state if location hasn't been found
 const initialState: LocationState = {
     coords: {
         latitude: 0,
@@ -12,6 +13,12 @@ const initialState: LocationState = {
     },
     timestamp: 0,
 };
+
+/**
+ * basic redux reducer. Returns object from the state.
+ * @param state
+ * @param action
+ */
 const reducer = (state = initialState, action: LocationActionTypes) => {
     switch (action.type) {
         case GET_LOCATION:

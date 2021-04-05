@@ -1,10 +1,11 @@
 export interface TransportationState {
-    "data": {
+    "stations": {
         "stopsByRadius": {
             "edges": [
                 {
                     "node": {
                         "stop": {
+                            "gtfsId": string,
                             "name": string
                         },
                         "distance": number
@@ -12,6 +13,16 @@ export interface TransportationState {
                 }
             ]
         }
+    },
+    "departures": {
+        "stop": {
+            "stoptimesWithoutPatterns": [
+                {
+                    "scheduledDeparture": number,
+                    "serviceDay": number
+                }
+            ]
+        },
     }
 }
 

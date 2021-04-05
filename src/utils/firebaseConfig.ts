@@ -3,7 +3,8 @@
 
 import Constants from 'expo-constants';
 import firebase from 'firebase';
-import { UserState } from '../store/user/types';
+import { MarkerType } from '../store/markers/types';
+import {UserState} from '../store/user/types';
 
 export const firebaseConfig = {
     apiKey: Constants.manifest.extra.apiKey,
@@ -16,6 +17,11 @@ export const firebaseConfig = {
     measurementId: Constants.manifest.extra.measurementId,
 };
 
+enum CollectionPaths {
+    USERS = 'users',
+    MARKERS = 'markers'
+}
+
 if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -25,8 +31,9 @@ const converter = <T>() => ({
     fromFirestore: (snapshot: firebase.firestore.QueryDocumentSnapshot) => snapshot.data() as T,
 });
 
-const dataPoint = <T>(collectionPath: string) => firebase.firestore().collection(collectionPath).withConverter(converter<T>());
+const dataPoint = <T>(collectionPath: CollectionPaths) => firebase.firestore().collection(collectionPath).withConverter(converter<T>());
 
 export const db = {
-    users: dataPoint<UserState>('users'),
+    users: dataPoint<UserState>(CollectionPaths.USERS),
+    markers: dataPoint<MarkerType>(CollectionPaths.MARKERS)
 }

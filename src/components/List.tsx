@@ -7,7 +7,7 @@ import { NewsState } from '../store/news/types';
 import AnnouncementItem from './AnnouncementItem';
 import NewsItem from './NewsItem';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 interface Props {
   news?: NewsState;

@@ -1,5 +1,8 @@
 import {FETCH_WEATHER, WeatherState} from "../weather/types";
 
+/**
+ * Type of the object that comes in from the expo-location.
+ */
 export interface LocationState {
     coords: {
         latitude: number;

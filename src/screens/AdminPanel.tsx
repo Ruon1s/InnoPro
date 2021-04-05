@@ -1,16 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
-import { UserState } from '../store/user/types';
-import { db } from '../utils/firebaseConfig';
 import { Formik } from 'formik';
 import InputField from '../components/InputField';
 import * as yup from 'yup';
 import HeaderText from '../components/HeaderText';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { FlatList } from 'react-native-gesture-handler';
+import AdminPanelListItem from '../components/AdminPanelListItem';
+import { GroupMessageValues } from '../types';
+import useAdmin from '../hooks/adminHook';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: StatusBar.currentHeight
+    paddingTop: StatusBar.currentHeight,
+    flex: 1,
+  },
+  separator: {
+    backgroundColor: 'silver',
+    height: 0.5,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  flatList: {
+    paddingBottom: 10,
   },
 });
 
@@ -19,72 +33,21 @@ const validationSchema = yup.object().shape({
   message: yup.string().min(5).max(160).required('Message is required')
 });
 
+const initialValues: GroupMessageValues = {
+  title: '',
+  message: '',
+}
+
 const AdminPanel: React.FC = () => {
-  const [users, setUsers] = useState<UserState[]>([]);
-
-  const fetchAllUsers = async () => {
-    try {
-      const usersFromDb = await db.users.get();
-
-      usersFromDb.forEach(user => {
-        const userData = user.data();
-
-        if (userData.notificationToken && userData.notificationToken !== '') {
-          setUsers(prevState => ([
-            ...prevState,
-            userData,
-          ]));
-        }
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-  useEffect(() => {
-    fetchAllUsers();
-  }, []);
-
-  const sendNotification = async (values: { title: string, message: string }) => {
-    try {
-      users.forEach(async user => {
-        if (user.notificationToken && user.notificationToken !== '') {
-          const message = {
-            to: user.notificationToken,
-            sound: 'default',
-            title: values.title,
-            body: values.message,
-          };
-
-          const options = {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Accept-encoding': 'gzip, deflate',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message),
-          }
-
-          await fetch('https://exp.host/--/api/v2/push/send', options);
-        }
-      })
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-  const initialValues = {
-    title: '',
-    message: '',
-  }
+  const markers = useSelector((state: RootState) => state.markers);
+  const {sendGroupNotification} = useAdmin();
 
   return (
     <View style={styles.container}>
       <HeaderText text="Send a Notifiation to All the Users" />
       <Formik
         initialValues={initialValues}
-        onSubmit={values => sendNotification(values)}
+        onSubmit={values => sendGroupNotification(values)}
         validationSchema={validationSchema}
       >
         {({ handleSubmit }) => (
@@ -95,6 +58,14 @@ const AdminPanel: React.FC = () => {
           </>
         )}
       </Formik>
+      <HeaderText text="Clear a marker" />
+      <FlatList 
+        contentContainerStyle={styles.flatList}
+        data={markers.markers}
+        keyExtractor={item => `${item.id!}`}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        renderItem={({ item }) => <AdminPanelListItem item={item} />}
+      />
     </View>
   );
 }

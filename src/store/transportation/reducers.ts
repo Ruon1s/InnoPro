@@ -1,7 +1,7 @@
 import {FETCH_TRANSPORT, TransportActionTypes, TransportationState} from "./types"
 
 const initialState: TransportationState = {
-    "data": {
+    "stations": {
         "stopsByRadius": {
             "edges": [
                 {
@@ -15,6 +15,16 @@ const initialState: TransportationState = {
                 }
             ]
         }
+    },
+    "departures": {
+        "stop": {
+            "stoptimesWithoutPatterns": [
+                {
+                    "scheduledDeparture": 0,
+                    "serviceDay": 0
+                }
+            ]
+        },
     }
 };
 

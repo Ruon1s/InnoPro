@@ -3,11 +3,79 @@
     {
       "id": 1,
       "name": "Dentist",
-      "Phone": 123123,
-      "Address": "Somewhere nearby",
+      "Phone": 123158923,
+      "Address": "Hammaskuja 9",
       "tags": [
         "tooth",
         "dentist"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Police",
+      "Phone": 234212334,
+      "Address": "Konstaapelinkatu 6",
+      "tags": [
+        "police",
+        "crime"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Kela",
+      "Phone": 321312221,
+      "Address": "Sossutie 9",
+      "tags": [
+        "kela"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Hospital",
+      "Phone": 765761225,
+      "Address": "Sairaalakatu 7",
+      "tags": [
+        "hospital",
+        "sick"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Movie theater",
+      "Phone": 2523523525,
+      "Address": "Elokuvakatu 2",
+      "tags": [
+        "elokuva",
+        "leffa"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Gym",
+      "Phone": 234231324,
+      "Address": "Salitie 6",
+      "tags": [
+        "gym",
+        "sali"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Testipalvelu",
+      "Phone": 32131221,
+      "Address": "Missälie 5",
+      "tags": [
+        "asd"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "School",
+      "Phone": 76571165,
+      "Address": "Koulutie 3",
+      "tags": [
+        "school",
+        "koulu"
       ]
     }
   ]
