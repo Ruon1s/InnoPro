@@ -73,7 +73,8 @@ export const signUp = (
                 fullName: values.fullName,
                 createdAt,
                 notificationToken: '',
-                admin: false
+                admin: false,
+                avatarUrl: ''
             });
 
             dispatch(toggleLoading(false));
@@ -122,6 +123,8 @@ export const updateUser = (
 
         const user = firebase.auth().currentUser;
 
+        console.log(newUserInfo);
+
         if (user) {
             await db.users.doc(user.uid).set(newUserInfo, {merge: true});
             dispatch({type: UPDATE_USER, payload: newUserInfo});
@@ -130,6 +133,7 @@ export const updateUser = (
             dispatch(setNotificationMessage('User was not found', NotificationTypes.Error, 5));
         }
     } catch (error) {
+        console.log(error);
         dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }

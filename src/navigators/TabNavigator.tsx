@@ -57,17 +57,18 @@ const TabNavigator: React.FC = () => {
                 if (location.city && location.city !== '') {
                     if (location.city !== user.lastKnownCity) {
                         dispatch(updateUser({ lastKnownCity: location.city }));
-                        console.log('AppState: ', state);
-                        console.log('Current locations city name: ', location.city);
-                        console.log('Last known user position: ', user.lastKnownCity);
                     }
                 }
             }
         });
 
         return () => AppState.removeEventListener('change', state => {
-            if (state === 'background' || state === 'active' && location.city && location.city !== '') {
-                dispatch(updateUser({ lastKnownCity: location.city }));
+            if (state === 'background' || state === 'active') {
+                if (location.city && location.city !== '') {
+                    if (location.city !== user.lastKnownCity) {
+                        dispatch(updateUser({ lastKnownCity: location.city }));
+                    }
+                }
             }
         });
     }, []);

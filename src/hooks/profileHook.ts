@@ -62,6 +62,8 @@ const useProfile = (user: UserState) => {
                     const avatarUrl = await storageRef.getDownloadURL();
 
                     newValues = {...newValues, avatarUrl};
+                } else {
+                    delete newValues.avatarUrl;
                 }
 
                 dispatch(updateUser(newValues));
