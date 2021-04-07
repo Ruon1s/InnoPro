@@ -2,12 +2,13 @@ import {Action} from "redux";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "..";
 import {SignInValues, SignUpValues} from "../../types";
-import {setErrorMessage, toggleLoading} from "../app/actions";
+import {setNotificationMessage, toggleLoading} from "../app/actions";
 import {SET_USER, UPDATE_USER, UserState} from "./types";
 import firebase from 'firebase';
 import {db} from "../../utils/firebaseConfig";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {StackParamList} from "../../navigators/StackNavigator";
+import { NotificationTypes } from "../app/types";
 
 export const fetchUser = (
     uid: string,
@@ -22,7 +23,7 @@ export const fetchUser = (
         }
     } catch (error) {
         navigation.replace('SignIn');
-        dispatch(setErrorMessage(error.message, 5));
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }
 
@@ -44,14 +45,14 @@ export const signIn = (
                 navigation.replace('Main');
             } else {
                 dispatch(toggleLoading(false));
-                dispatch(setErrorMessage('Could not find the user info', 5));
+                dispatch(setNotificationMessage('User info not found', NotificationTypes.Error, 5));
             }
         } else {
             dispatch(toggleLoading(false));
-            dispatch(setErrorMessage('Could not find the user', 5));
+            dispatch(setNotificationMessage('User not found', NotificationTypes.Error, 5));
         }
     } catch (error) {
-        dispatch(setErrorMessage(error.message, 5));
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }
 
@@ -77,14 +78,18 @@ export const signUp = (
 
             dispatch(toggleLoading(false));
             dispatch({type: SET_USER, payload: {...values, createdAt}});
-            navigation.replace('Permissions');
+            dispatch(setNotificationMessage('Sign Up successful!', NotificationTypes.Success, 5));
+            navigation.reset({
+                index: 0,
+                routes: [{name: 'Permissions'}]
+            });
         } else {
             dispatch(toggleLoading(false));
-            dispatch(setErrorMessage('Something went wrong, please try again later.', 5));
+            dispatch(setNotificationMessage('Something went wrong, please try again', NotificationTypes.Error, 5));
         }
     } catch (error) {
         dispatch(toggleLoading(false));
-        dispatch(setErrorMessage(error.message, 5));
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }
 
@@ -103,9 +108,10 @@ export const signOut = (
             index: 0,
             routes: [{name: 'SignIn'}]
         });
+        dispatch(setNotificationMessage('Signed out!', NotificationTypes.Success, 5));
     } catch (error) {
         dispatch(toggleLoading(false));
-        dispatch(setErrorMessage(error.message, 5));
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }
 
@@ -113,20 +119,17 @@ export const updateUser = (
     newUserInfo: Partial<UserState>
 ): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
     try {
-        dispatch(toggleLoading(true));
 
         const user = firebase.auth().currentUser;
 
         if (user) {
             await db.users.doc(user.uid).set(newUserInfo, {merge: true});
             dispatch({type: UPDATE_USER, payload: newUserInfo});
-            dispatch(toggleLoading(false));
+            dispatch(setNotificationMessage('User info updated!', NotificationTypes.Success, 5));
         } else {
-            dispatch(toggleLoading(false));
-            dispatch(setErrorMessage('User not found', 5));
+            dispatch(setNotificationMessage('User was not found', NotificationTypes.Error, 5));
         }
     } catch (error) {
-        dispatch(toggleLoading(false));
-        dispatch(setErrorMessage(error.message, 5));
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }

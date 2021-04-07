@@ -4,21 +4,21 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 const {height, width} = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
-  container: {
-    height: height / 5,
-    width,
-  },
-  content: {
-    borderWidth: 1,
-    borderColor: 'silver',
-    borderRadius: 5,
-    margin: 10,
-    padding: 10,
-    paddingBottom: 0,
-    backgroundColor: 'white',
-    elevation: 5,
-    flex: 1,
-  }
+    container: {
+        height: height / 5,
+        width,
+    },
+    content: {
+        borderWidth: 1,
+        borderColor: 'silver',
+        borderRadius: 5,
+        margin: 10,
+        padding: 10,
+        paddingBottom: 0,
+        backgroundColor: 'white',
+        elevation: 5,
+        flex: 1,
+    }
 });
 
 const Card: React.FC = ({children}) => {

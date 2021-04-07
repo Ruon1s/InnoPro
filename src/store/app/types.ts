@@ -1,19 +1,29 @@
 export interface AppState {
     loading: boolean;
-    errorMessage: string | undefined;
+    notification: Notification;
+}
+
+export interface Notification {
+    message: string | undefined;
+    type: NotificationTypes | undefined;
+}
+
+export enum NotificationTypes {
+    Success = 'success',
+    Error = 'error',
 }
 
 export const TOGGLE_LOADING = 'TOGGLE_LOADING';
-export const SET_ERROR = 'SET_ERROR';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 
 interface ToggleLoadingAction {
     type: typeof TOGGLE_LOADING;
     payload: boolean;
 }
 
-interface SetErrorAction {
-    type: typeof SET_ERROR;
-    payload: string | undefined;
+interface SetNotificationAction {
+    type: typeof SET_NOTIFICATION;
+    payload: Notification;
 }
 
-export type AppStateActionTypes = ToggleLoadingAction | SetErrorAction;
+export type AppStateActionTypes = ToggleLoadingAction | SetNotificationAction;

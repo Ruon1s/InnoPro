@@ -14,13 +14,20 @@ export interface LocationState {
         speed: number | null;
     }
     timestamp: number;
+    city: string;
 };
 
 export const GET_LOCATION = "GET_LOCATION";
+export const SET_CITY_NAME = "SET_CITY_NAME";
 
 interface GetLocationAction {
     type: typeof GET_LOCATION;
     payload: LocationState;
 };
 
-export type LocationActionTypes = GetLocationAction;
+interface SetCityNameAction {
+    type: typeof SET_CITY_NAME;
+    payload: string;
+}
+
+export type LocationActionTypes = GetLocationAction | SetCityNameAction;

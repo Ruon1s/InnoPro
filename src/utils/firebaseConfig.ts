@@ -18,8 +18,8 @@ export const firebaseConfig = {
 };
 
 enum CollectionPaths {
-    USERS = 'users',
-    MARKERS = 'markers'
+    Users = 'users',
+    Markers = 'markers'
 }
 
 if (firebase.apps.length === 0) {
@@ -34,6 +34,6 @@ const converter = <T>() => ({
 const dataPoint = <T>(collectionPath: CollectionPaths) => firebase.firestore().collection(collectionPath).withConverter(converter<T>());
 
 export const db = {
-    users: dataPoint<UserState>(CollectionPaths.USERS),
-    markers: dataPoint<MarkerType>(CollectionPaths.MARKERS)
+    users: dataPoint<UserState>(CollectionPaths.Users),
+    markers: dataPoint<MarkerType>(CollectionPaths.Markers)
 }

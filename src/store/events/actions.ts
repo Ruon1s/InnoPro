@@ -1,8 +1,9 @@
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../index";
 import {Action} from "redux";
-import {setErrorMessage, toggleLoading} from "../app/actions";
+import {setNotificationMessage, toggleLoading} from "../app/actions";
 import {FETCH_EVENTS} from "./types";
+import { NotificationTypes } from "../app/types";
 
 export const fetchEvents = (
     lat: number,
@@ -18,6 +19,6 @@ export const fetchEvents = (
         dispatch(toggleLoading(false));
     } catch (error) {
         dispatch(toggleLoading(false));
-        dispatch(setErrorMessage(error.message, 5));
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 };

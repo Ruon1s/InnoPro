@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Animated, Text, TextInput, useWindowDimensions, View,} from 'react-native';
 import {Overlay, Input, Button} from "react-native-elements";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {newMarker} from "../store/markers/actions";
 import {RootState} from "../store";
 // @ts-ignore
@@ -30,6 +30,8 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) => {
     const [color, setColor] = useState('green');
     //selected state for information about the selected radiobutton
     const [selected, setSelected] = useState({label: 'green marker', color: 'green'});
+    //Dispatch for redux
+    const dispatch = useDispatch();
 
 
     const initialValues: MarkerValues = {
@@ -68,7 +70,7 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) => {
             color: selected.color,
             timestamp: stringDate,
         };
-        await newMarker(markerValues);
+        dispatch(newMarker(markerValues));
         onBackdropPress()
     };
 

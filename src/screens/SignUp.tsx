@@ -9,7 +9,7 @@ import SignUpForm from '../components/SignUpForm';
 import {SignUpValues} from '../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import ErrorContainer from '../components/ErrorContainer';
+import NotificationContainer from '../components/NotificationContainer';
 import CustomButton from '../components/CustomButton';
 import Loading from '../components/Loading';
 import {signUp} from '../store/user/actions';
@@ -41,7 +41,7 @@ interface Props {
 
 const SignUp: React.FC<Props> = ({navigation}) => {
     const dispatch = useDispatch();
-    const {loading, errorMessage} = useSelector((state: RootState) => state.app);
+    const {loading, notification} = useSelector((state: RootState) => state.app);
 
     const handleSubmit = (values: SignUpValues) => {
         dispatch(signUp(values, navigation));
@@ -58,14 +58,14 @@ const SignUp: React.FC<Props> = ({navigation}) => {
                     validationSchema={validationSchema}
                     onSubmit={values => handleSubmit(values)}
                 >
-                    {({handleSubmit}) => <SignUpForm handleSubmit={handleSubmit}/>}
+                    {({handleSubmit, resetForm}) => <SignUpForm handleSubmit={handleSubmit} resetForm={resetForm} />}
                 </Formik>
                 <CustomButton
                     title="Already have an account? Sign In!"
                     onPress={() => navigation.goBack()}
                     transparent={true}
                 />
-                {errorMessage && <ErrorContainer errorMessage={errorMessage}/>}
+                {notification.message && <NotificationContainer type={notification.type} message={notification.message}/>}
             </View>
     );
 }

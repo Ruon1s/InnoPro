@@ -1,16 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {ScrollView, StatusBar, StyleSheet, View, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import WeatherInfo from '../components/WeatherInfo';
 import List from '../components/List';
 import TransportationInfo from '../components/TransportationInfo';
 import EventInfo from '../components/EventInfo'
-import {fetchTransport} from "../store/transportation/actions";
 import HeaderText from '../components/HeaderText';
 import { RootState } from '../store';
-import ErrorContainer from '../components/ErrorContainer';
+import NotificationContainer from '../components/NotificationContainer';
 import {useTranslation} from 'react-i18next'
-import {fetchEvents} from "../store/events/actions";
 
 const styles = StyleSheet.create({
     container: {
@@ -25,19 +23,11 @@ const styles = StyleSheet.create({
 });
 
 const Feed: React.FC = () => {
-    const dispatch = useDispatch();
-    const { errorMessage } = useSelector((state: RootState) => state.app);
+    const notification = useSelector((state: RootState) => state.app.notification);
     const user = useSelector((state: RootState) => state.user);
     const announcements = useSelector((state: RootState) => state.announcements);
     const news = useSelector((state: RootState) => state.news);
     const {t, i18n} = useTranslation();
-
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-            dispatch(fetchTransport(position.coords.latitude, position.coords.longitude));
-            dispatch(fetchEvents(position.coords.latitude, position.coords.longitude));
-        });
-    }, []);
 
     return (
         <View style={styles.container}>
@@ -62,7 +52,7 @@ const Feed: React.FC = () => {
                 <HeaderText text={t("Public Transportation")} />
                 <TransportationInfo/>
             </ScrollView>
-            {errorMessage && <ErrorContainer errorMessage={errorMessage} />}
+            {notification.message && <NotificationContainer type={notification.type} message={notification.message} />}
         </View>
     );
 };

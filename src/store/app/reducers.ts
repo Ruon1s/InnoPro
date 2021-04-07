@@ -1,8 +1,11 @@
-import {AppState, AppStateActionTypes, SET_ERROR, TOGGLE_LOADING} from "./types";
+import {AppState, AppStateActionTypes, SET_NOTIFICATION, TOGGLE_LOADING} from "./types";
 
 const initialState: AppState = {
     loading: false,
-    errorMessage: undefined,
+    notification: {
+        message: undefined,
+        type: undefined,
+    },
 }
 
 const reducer = (state = initialState, action: AppStateActionTypes) => {
@@ -12,10 +15,10 @@ const reducer = (state = initialState, action: AppStateActionTypes) => {
                 ...state,
                 loading: action.payload
             }
-        case SET_ERROR:
+        case SET_NOTIFICATION:
             return {
                 ...state,
-                errorMessage: action.payload,
+                notification: action.payload,
             }
         default:
             return state;

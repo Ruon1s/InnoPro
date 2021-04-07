@@ -3,44 +3,51 @@
 import React from 'react';
 import { FlatList, Dimensions } from 'react-native';
 import { AnnouncementState } from '../store/announcements/types';
+import { MarkerState } from '../store/markers/types';
 import { NewsState } from '../store/news/types';
+import AdminPanelListItem from './AdminPanelListItem';
 import AnnouncementItem from './AnnouncementItem';
 import NewsItem from './NewsItem';
 
 const {width} = Dimensions.get('window');
 
 interface Props {
-  news?: NewsState;
-  announcements?: AnnouncementState;
-  horizontal: boolean;
+    news?: NewsState;
+    announcements?: AnnouncementState;
+    markers?: MarkerState;
+    horizontal?: boolean;
 }
 
-const List: React.FC<Props> = ({ news, announcements, horizontal }) => {
+const List: React.FC<Props> = ({ news, announcements, markers, horizontal }) => {
 
-  const renderItem = (item: any): JSX.Element | null => {
-    if (news) {
-      return <NewsItem news={item} />
+    const renderItem = (item: any): JSX.Element | null => {
+        if (news) {
+            return <NewsItem news={item} />
+        }
+
+        if (announcements) {
+            return <AnnouncementItem announcement={item} />
+        }
+
+        if (markers) {
+            return <AdminPanelListItem item={item} />
+        }
+
+        return null;
     }
 
-    if (announcements) {
-      return <AnnouncementItem announcement={item} />
-    }
-
-    return null;
-  }
-
-  return (
-    <FlatList 
-      data={news?.value || announcements?.value || undefined}
-      keyExtractor={item => `${item.ContentId}`}
-      horizontal={horizontal}
-      showsHorizontalScrollIndicator={false}
-      snapToAlignment="start"
-      snapToInterval={width}
-      decelerationRate="fast"
-      renderItem={({ item }) => renderItem(item)}
-    />
-  );
+    return (
+        <FlatList 
+            data={news?.value || announcements?.value || undefined}
+            keyExtractor={item => `${item.ContentId}`}
+            horizontal={horizontal}
+            showsHorizontalScrollIndicator={false}
+            snapToAlignment="start"
+            snapToInterval={width}
+            decelerationRate="fast"
+            renderItem={({ item }) => renderItem(item)}
+        />
+    );
 }
 
 export default List;

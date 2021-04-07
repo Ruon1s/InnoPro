@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { AppState } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Feed from '../screens/Feed';
 import Profile from '../screens/Profile';
 import Map from '../screens/Map';
 import Search from '../screens/Search';
 import {useDispatch, useSelector} from 'react-redux';
-import {getLocation} from '../store/location/actions';
+import {getCurrentLocationName, getLocation} from '../store/location/actions';
 import {RootState} from '../store';
 import {fetchWeather} from '../store/weather/actions';
 import {useTranslation} from "react-i18next";
@@ -14,6 +15,9 @@ import {getMarkers} from "../store/markers/actions";
 import AdminPanel from '../screens/AdminPanel';
 import { fetchNews } from '../store/news/actions';
 import { fetchAnnouncements } from '../store/announcements/actions';
+import { updateUser } from '../store/user/actions';
+import { fetchEvents } from '../store/events/actions';
+import { fetchTransport } from '../store/transportation/actions';
 
 
 type BottomTabParamList = {
@@ -35,18 +39,38 @@ const TabNavigator: React.FC = () => {
         dispatch(getLocation());
         dispatch(fetchNews());
         dispatch(fetchAnnouncements());
-    }, []);
-
-    useEffect(() => {
-        if (location.coords !== undefined) {
-            dispatch(fetchWeather(location.coords.latitude, location.coords.longitude));
-        }
-    }, [location]);
-
-    useEffect(() => {
         dispatch(getMarkers());
-    }, []);
 
+        //Location based states, just use the basic js location since the redux location is wathcing the users position.
+        //If we would use that, the components will keep re-rendering
+        navigator.geolocation.getCurrentPosition(position => {
+            dispatch(fetchWeather(position.coords.latitude, position.coords.longitude));
+            dispatch(getCurrentLocationName(position.coords.latitude, position.coords.longitude));
+            dispatch(fetchTransport(position.coords.latitude, position.coords.longitude));
+            dispatch(fetchEvents(position.coords.latitude, position.coords.longitude));
+        });
+
+        //Watching if the app goes in the background or foreground.
+        //Either way, update the users current location to the firebase so the user receives notifications based on that city
+        AppState.addEventListener('change', state => {
+            if (state === 'background' || state === 'active') {
+                if (location.city && location.city !== '') {
+                    if (location.city !== user.lastKnownCity) {
+                        dispatch(updateUser({ lastKnownCity: location.city }));
+                        console.log('AppState: ', state);
+                        console.log('Current locations city name: ', location.city);
+                        console.log('Last known user position: ', user.lastKnownCity);
+                    }
+                }
+            }
+        });
+
+        return () => AppState.removeEventListener('change', state => {
+            if (state === 'background' || state === 'active' && location.city && location.city !== '') {
+                dispatch(updateUser({ lastKnownCity: location.city }));
+            }
+        });
+    }, []);
 
     const {t, i18n} = useTranslation();
     const feedHeader = t('feed');

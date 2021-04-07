@@ -1,15 +1,16 @@
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import CustomButton from '../components/CustomButton';
-import ErrorContainer from '../components/ErrorContainer';
+import NotificationContainer from '../components/NotificationContainer';
 import Loading from '../components/Loading';
 import {StackParamList} from '../navigators/StackNavigator';
 import {RootState} from '../store';
 import * as Notifications from 'expo-notifications';
-import {setErrorMessage, toggleLoading} from '../store/app/actions';
+import {setNotificationMessage, toggleLoading} from '../store/app/actions';
 import {updateUser} from '../store/user/actions';
+import { NotificationTypes } from '../store/app/types';
 
 const styles = StyleSheet.create({
     container: {
@@ -27,7 +28,7 @@ interface Props {
 
 const PermissionsScreen: React.FC<Props> = ({navigation}) => {
     const dispatch = useDispatch();
-    const {loading, errorMessage} = useSelector((state: RootState) => state.app);
+    const {loading, notification} = useSelector((state: RootState) => state.app);
 
     const askPermissions = async () => {
         try {
@@ -45,7 +46,7 @@ const PermissionsScreen: React.FC<Props> = ({navigation}) => {
                     navigation.replace('Main');
                 } else {
                     dispatch(toggleLoading(false));
-                    dispatch(setErrorMessage('Permissions not granted', 5));
+                    dispatch(setNotificationMessage('Permissions not granted', NotificationTypes.Error, 5));
                 }
             } else {
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -56,7 +57,7 @@ const PermissionsScreen: React.FC<Props> = ({navigation}) => {
                 navigation.replace('Main');
             }
         } catch (error) {
-            dispatch(setErrorMessage(error.message, 5));
+            dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
         }
     }
 
@@ -73,7 +74,7 @@ const PermissionsScreen: React.FC<Props> = ({navigation}) => {
                 </View>
                 <CustomButton title="Give permissions" onPress={askPermissions}/>
                 <CustomButton title="Maybe later" onPress={() => navigation.replace('Main')} transparent/>
-                {errorMessage && <ErrorContainer errorMessage={errorMessage}/>}
+                {notification.message && <NotificationContainer type={notification.type} message={notification.message}/>}
             </View>
     );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Card from './Card';
 import {Ionicons} from '@expo/vector-icons';
 import {useSelector} from "react-redux";
@@ -20,6 +20,18 @@ const styles = StyleSheet.create({
     header: {
         textAlign: 'center',
         fontWeight: 'bold'
+    },
+    left: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    right: {
+        flex: 2,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     }
 });
 
@@ -48,19 +60,31 @@ const TransportationInfo: React.FC = () => {
             <Card>
                 <Text style={styles.header}>{t('closestStations')}</Text>
                 <View style={styles.row}>
-                    <Ionicons name="bus" size={30}/>
-                    <Text style={styles.text}>{stopNames[0] ?? ""}</Text>
-                    <Text style={styles.text}>{stopDistances[0]}m {t('away')}</Text>
+                    <View style={styles.left}>
+                        <Ionicons name="bus" size={30}/>
+                    </View>
+                    <View style={styles.right}>
+                        <Text style={styles.text}>{stopNames[0] ?? ""}</Text>
+                        <Text style={styles.text}>{stopDistances[0]}m {t('away')}</Text>
+                    </View>
                 </View>
                 <View style={styles.row}>
-                    <Ionicons name="bus" size={30}/>
-                    <Text style={styles.text}>{stopNames[1] ?? ""}</Text>
-                    <Text style={styles.text}>{stopDistances[1]}m {t('away')}</Text>
+                    <View style={styles.left}>
+                        <Ionicons name="bus" size={30}/>
+                    </View>
+                    <View style={styles.right}>
+                        <Text style={styles.text}>{stopNames[1] ?? ""}</Text>
+                        <Text style={styles.text}>{stopDistances[1]}m {t('away')}</Text>
+                    </View>
                 </View>
                 <View style={styles.row}>
-                    <Ionicons name="bus" size={30}/>
-                    <Text style={styles.text}>{stopNames[2] ?? ""}</Text>
-                    <Text style={styles.text}>{stopDistances[2]}m {t('away')}</Text>
+                    <View style={styles.left}>
+                        <Ionicons name="bus" size={30}/>
+                    </View>
+                    <View style={styles.right}>
+                        <Text style={styles.text}>{stopNames[2] ?? ""}</Text>
+                        <Text style={styles.text}>{stopDistances[2]}m {t('away')}</Text>
+                    </View>
                 </View>
             </Card>
         </TouchableOpacity>

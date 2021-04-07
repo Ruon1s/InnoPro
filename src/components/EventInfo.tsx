@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text} from "react-native";
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
@@ -106,7 +106,7 @@ const EventInfo: React.FC = () => {
             let eventEndTimeAsDate = 0;
             if (events.data[i].end_time != null) {
                 eventEndTime = events.data[i].end_time;
-                console.log(i + " : " + eventEndTime)
+                //console.log(i + " : " + eventEndTime)
                 const eventEndTimeSplitWithLine = eventEndTime.split("-");
                 const eventEndTimeSplitWithT = eventEndTimeSplitWithLine[2].split("T");
                 if (eventEndTimeSplitWithT[1] != undefined) {
@@ -122,9 +122,9 @@ const EventInfo: React.FC = () => {
             const currentDateAsString = new Date;
             const currentDate = Date.now();
 
-            console.log(i + " Event name: " + eventName);
+/*             console.log(i + " Event name: " + eventName);
             console.log(i + " Event end time: " + eventEndTimeAsDate + " current time: " + currentDate);
-            console.log(i + " Event end time as String: " + eventEndTimeAsString + " current time as String: " + currentDateAsString);
+            console.log(i + " Event end time as String: " + eventEndTimeAsString + " current time as String: " + currentDateAsString); */
 
             if (eventEndTimeAsDate > currentDate) {
                 newEvent = {

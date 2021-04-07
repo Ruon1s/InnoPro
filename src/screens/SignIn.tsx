@@ -10,7 +10,7 @@ import {SignInValues} from '../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import Loading from '../components/Loading';
-import ErrorContainer from '../components/ErrorContainer';
+import NotificationContainer from '../components/NotificationContainer';
 import {signIn} from '../store/user/actions';
 import CustomButton from '../components/CustomButton';
 
@@ -41,7 +41,7 @@ interface Props {
 
 const SignIn: React.FC<Props> = ({navigation}) => {
     const dispatch = useDispatch();
-    const {loading, errorMessage} = useSelector((state: RootState) => state.app);
+    const {loading, notification} = useSelector((state: RootState) => state.app);
 
   const handleSubmit = (values: SignInValues) => {
     dispatch(signIn(values, navigation));
@@ -65,7 +65,7 @@ const SignIn: React.FC<Props> = ({navigation}) => {
                     onPress={() => navigation.navigate('SignUp')}
                     transparent={true}
                 />
-                {errorMessage && <ErrorContainer errorMessage={errorMessage}/>}
+                {notification.message && <NotificationContainer type={notification.type} message={notification.message}/>}
             </View>
     );
 }

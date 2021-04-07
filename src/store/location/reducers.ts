@@ -1,4 +1,4 @@
-import {GET_LOCATION, LocationActionTypes, LocationState} from "./types"
+import {GET_LOCATION, LocationActionTypes, LocationState, SET_CITY_NAME} from "./types"
 
 //initial state if location hasn't been found
 const initialState: LocationState = {
@@ -12,6 +12,7 @@ const initialState: LocationState = {
         speed: null,
     },
     timestamp: 0,
+    city: ''
 };
 
 /**
@@ -22,7 +23,15 @@ const initialState: LocationState = {
 const reducer = (state = initialState, action: LocationActionTypes) => {
     switch (action.type) {
         case GET_LOCATION:
-            return {...action.payload};
+            return {
+                ...state,
+                ...action.payload
+            };
+        case SET_CITY_NAME:
+            return {
+                ...state,
+                city: action.payload,
+            }
         default:
             return state;
     }

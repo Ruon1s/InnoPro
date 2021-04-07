@@ -1,10 +1,11 @@
 import {Action} from "redux";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "..";
-import {GET_LOCATION} from "./types";
+import {GET_LOCATION, SET_CITY_NAME} from "./types";
 import * as Location from 'expo-location';
 import {LocationAccuracy} from "expo-location";
-import {toggleLoading} from "../app/actions";
+import {setNotificationMessage, toggleLoading} from "../app/actions";
+import { NotificationTypes } from "../app/types";
 
 /**
  *  All actions for location
@@ -38,3 +39,18 @@ export const getLocation = (): ThunkAction<void, RootState, unknown, Action<stri
         }
 
     };
+
+
+export const getCurrentLocationName = (
+    latitude: number, 
+    longitude: number
+): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+    try {
+        const address = await Location.reverseGeocodeAsync({ latitude, longitude });
+        if (address.length > 0 && address[0].city !== undefined) {
+            dispatch({ type: SET_CITY_NAME, payload: address[0].city });
+        }
+    } catch (error) {
+        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
+    }
+}

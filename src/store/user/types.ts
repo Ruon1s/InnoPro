@@ -5,6 +5,7 @@ export interface UserState {
     notificationToken: string;
     avatarUrl?: string | undefined;
     admin: boolean;
+    lastKnownCity?: string;
 }
 
 export const SET_USER = "SET_USER";

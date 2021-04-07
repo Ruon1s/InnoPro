@@ -1,24 +1,20 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet, StatusBar, Platform, Image, Dimensions} from 'react-native';
+import React from 'react';
+import {Text, View, StyleSheet, StatusBar, Image, Dimensions} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import CustomButton from '../components/CustomButton';
 import Loading from '../components/Loading';
-import ErrorContainer from '../components/ErrorContainer';
-import {signOut, updateUser} from '../store/user/actions';
+import NotificationContainer from '../components/NotificationContainer';
+import {signOut} from '../store/user/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../navigators/StackNavigator';
-import * as ImagePicker from 'expo-image-picker';
-import {setErrorMessage, toggleLoading} from '../store/app/actions';
-import firebase from 'firebase';
-import 'firebase/storage';
 import {Formik} from 'formik';
-import {UpdateUserValues} from '../types';
 import InputField from '../components/InputField';
 import * as yup from 'yup';
 import i18n from '../i18n';
 import {useTranslation} from 'react-i18next'
+import useProfile from '../hooks/profileHook';
 
 const {width} = Dimensions.get('window');
 
@@ -75,75 +71,17 @@ interface Props {
 const Profile: React.FC<Props> = ({navigation}) => {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
-    const {loading, errorMessage} = useSelector((state: RootState) => state.app);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [imageUri, setImageUri] = useState<string | undefined>(user.avatarUrl);
-
-    const initialValues: UpdateUserValues = {
-        fullName: user.fullName,
-        email: user.email,
-        avatarUrl: user.avatarUrl,
-    }
-
-    const pickImage = async () => {
-        try {
-            if (Platform.OS !== 'web') {
-                const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-                if (!status.granted) {
-                    dispatch(setErrorMessage('Permissions not granted', 5));
-                } else {
-                    const result = await ImagePicker.launchImageLibraryAsync({
-                        mediaTypes: ImagePicker.MediaTypeOptions.All,
-                        allowsEditing: true,
-                        aspect: [4, 3],
-                        quality: 1,
-                    });
-
-                    if (!result.cancelled) {
-                        setImageUri(result.uri);
-                    }
-                }
-            }
-        } catch (error) {
-            dispatch(setErrorMessage(error.message, 5));
-        }
-    }
-
-    const handleUserUpdate = async (values: UpdateUserValues) => {
-        try {
-            dispatch(toggleLoading(true));
-            const userId = firebase.auth().currentUser?.uid;
-            let newValues = {...values};
-
-            if (userId) {
-                if (imageUri && user.avatarUrl !== imageUri) {
-                    const storageRef = firebase.storage().ref(`/users/${userId}/avatar.jpg`);
-                    const image = await fetch(imageUri);
-                    const blob = await image.blob();
-
-                    await storageRef.put(blob);
-                    const avatarUrl = await storageRef.getDownloadURL();
-
-                    newValues = {...newValues, avatarUrl};
-                }
-
-                dispatch(updateUser(newValues));
-                setIsEditing(false);
-            } else {
-                dispatch(toggleLoading(false));
-                dispatch(setErrorMessage('Invalid current user', 5));
-            }
-        } catch (error) {
-            dispatch(toggleLoading(false));
-            dispatch(setErrorMessage(error.message, 5));
-        }
-    }
-
-    const cancelEdit = () => {
-        setImageUri(initialValues.avatarUrl);
-        setIsEditing(false);
-    }
+    const city = useSelector((state: RootState) => state.location.city)
+    const {loading, notification} = useSelector((state: RootState) => state.app);
+    const { 
+        isEditing, 
+        imageUri, 
+        initialValues, 
+        setIsEditing,
+        pickImage, 
+        handleUserUpdate, 
+        cancelEdit 
+    } = useProfile(user);
 
     const {t, i18n} = useTranslation();
 
@@ -182,7 +120,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
                                                 keyboardType="email-address"/>
                                 </View>
                                 <View style={styles.signOutContainer}>
-                                    {loading ?
+                                    {loading && !isEditing ?
                                         <Loading/>
                                         :
                                         <>
@@ -198,17 +136,17 @@ const Profile: React.FC<Props> = ({navigation}) => {
                         <Text style={styles.titleText}>{t("name")}: {user.fullName}</Text>
                         <Text style={styles.titleText}>{t("email")}: {user.email} </Text>
                         <Text style={styles.titleText}>{t("joined")}: {new Date(user.createdAt).toDateString()}</Text>
+                        {city && city !== '' && <Text style={styles.titleText}>Current Location: {city}</Text>}
                     </>}
                 <View style={styles.signOutContainer}>
                     {!isEditing &&
                     <>
                         <CustomButton title={t("changeLanguage")} onPress={() => changeLanguage()} transparent/>
                         <CustomButton title={t("editProfile")} onPress={() => setIsEditing(true)} transparent/>
-                        <CustomButton title={t("signOut")} onPress={() => dispatch(signOut(navigation))} transparent
-                                      danger/>
+                        <CustomButton title={t("signOut")} onPress={() => dispatch(signOut(navigation))} transparent danger/>
                     </>}
                 </View>
-                {errorMessage && <ErrorContainer errorMessage={errorMessage}/>}
+                {notification.message && <NotificationContainer type={notification.type} message={notification.message}/>}
             </View>
         </View>
     );

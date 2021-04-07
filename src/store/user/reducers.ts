@@ -6,6 +6,8 @@ const initialState: UserState = {
     createdAt: 0,
     notificationToken: '',
     avatarUrl: undefined,
+    lastKnownCity: '',
+    admin: false,
 }
 
 const reducer = (state = initialState, action: UserActionTypes) => {

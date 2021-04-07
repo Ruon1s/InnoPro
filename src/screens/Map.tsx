@@ -15,6 +15,7 @@ import AddMarkerForm from "../components/AddMarkerForm";
 import {Ionicons} from '@expo/vector-icons';
 import {MarkerType} from "../store/markers/types";
 import {getMarkers} from "../store/markers/actions";
+import NotificationContainer from '../components/NotificationContainer';
 
 
 const styles = StyleSheet.create({
@@ -47,6 +48,7 @@ const Map: React.FC = () => {
     //get markers and location from redux state
     const markers = useSelector((state: RootState) => state.markers);
     const location = useSelector((state: RootState) => state.location);
+    const notification = useSelector((state: RootState) => state.app.notification);
 
 
     /**
@@ -120,6 +122,7 @@ const Map: React.FC = () => {
                 />
             </MapView>
             <FloatingActionButton onPress={toggleOverlay}/>
+            {notification.message && <NotificationContainer message={notification.message} type={notification.type} />}
         </View>
     );
 }
