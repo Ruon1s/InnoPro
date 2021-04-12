@@ -33,23 +33,23 @@ const Feed: React.FC = () => {
         <View style={styles.container}>
             <HeaderText text={`${t('hello')}, ${user.fullName.split(' ')[0]}`}/>
             <ScrollView>
-                <HeaderText text={t("Weather")} />
+                <HeaderText text={t("weather")} />
                 <WeatherInfo/>
                 {news.value.length > 0 &&
                 <>
-                    <HeaderText text={t("News")} />
+                    <HeaderText text={t("news")} />
                     <Text style={styles.infoText}>Swipe left to see more... ({news.value.length} items)</Text>
                     <List horizontal news={news} />
                 </>}
-                {announcements.value.length > 0 && 
+                {announcements.value.length > 0 &&
                 <>
-                    <HeaderText text={t("Announcements")} />
+                    <HeaderText text={t("announcements")} />
                     <Text style={styles.infoText}>Swipe left to see more... ({announcements.value.length} items)</Text>
                     <List horizontal announcements={announcements} />
                 </>}
                 <HeaderText text={t("events")} />
                 <EventInfo />
-                <HeaderText text={t("Public Transportation")} />
+                <HeaderText text={t("publicTransport")} />
                 <TransportationInfo/>
             </ScrollView>
             {notification.message && <NotificationContainer type={notification.type} message={notification.message} />}

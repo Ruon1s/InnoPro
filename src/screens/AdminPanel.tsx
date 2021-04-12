@@ -15,6 +15,7 @@ import NotificationContainer from '../components/NotificationContainer';
 import { setNotificationMessage } from '../store/app/actions';
 import { NotificationTypes } from '../store/app/types';
 import { getCurrentLocationName } from '../store/location/actions';
+import {useTranslation} from "react-i18next";
 
 const styles = StyleSheet.create({
     container: {
@@ -71,9 +72,11 @@ const AdminPanel: React.FC = () => {
 
     const filteredMarkers = filter ? markers.markers.filter(marker => marker.description.toLowerCase().includes(filter.toLowerCase())) : markers.markers;
 
+    const {t, i18n} = useTranslation();
+
     return (
         <View style={styles.container}>
-            <HeaderText text="Send a Notifiation to All the Users" />
+            <HeaderText text={t("sendNotifToAllUsers")} />
             <Formik
                 initialValues={initialValues}
                 onSubmit={values => sendGroupNotification(values)}
@@ -81,17 +84,17 @@ const AdminPanel: React.FC = () => {
             >
                 {({ handleSubmit, resetForm }) => (
                 <>
-                    <InputField name="title" placeholder="Notification title" />
-                    <InputField name="message" placeholder="Notification message" />
-                    <CustomButton title="Send a Notification" onPress={handleSubmit} />
-                    <CustomButton title="Reset fields" transparent danger onPress={resetForm} />
+                    <InputField name="title" placeholder={t("notifTitle")} />
+                    <InputField name="message" placeholder={t("notifMessage")} />
+                    <CustomButton title={t("sendNotif")} onPress={handleSubmit} />
+                    <CustomButton title={t("resetFields")} transparent danger onPress={resetForm} />
                 </>
                 )}
             </Formik>
             <View style={styles.divider} />
-            <HeaderText text="Clear a marker" />
-            <TextInput placeholder="Search" onChangeText={handleSearch} style={styles.inputField} />
-            <FlatList 
+            <HeaderText text={t("clearMarker")} />
+            <TextInput placeholder={t("search")} onChangeText={handleSearch} style={styles.inputField} />
+            <FlatList
                 contentContainerStyle={styles.flatList}
                 data={filteredMarkers}
                 keyExtractor={item => `${item.id!}`}
@@ -100,9 +103,9 @@ const AdminPanel: React.FC = () => {
                 ListEmptyComponent={() => <Text style={styles.emptyListText}>No markers found</Text>}
             />
             <View style={styles.divider} />
-            <HeaderText text="Your current location" />
+            <HeaderText text={t("currentLocation")} />
             <Text style={styles.cityText}>{city || 'Can not get the location'}</Text>
-            <CustomButton title="Refetch your location" onPress={() => dispatch(getCurrentLocationName(latitude, longitude))} />
+            <CustomButton title={t("refetchLocation")} onPress={() => dispatch(getCurrentLocationName(latitude, longitude))} />
             {notification.message && <NotificationContainer type={notification.type} message={notification.message} />}
         </View>
     );

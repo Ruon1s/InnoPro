@@ -12,6 +12,7 @@ import InputField from "./InputField";
 import {MarkerValues} from "../types";
 import {signIn} from "../store/user/actions";
 import CustomButton from "./CustomButton";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     visibility: boolean;
@@ -33,6 +34,8 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) => {
     //Dispatch for redux
     const dispatch = useDispatch();
 
+    const {t, i18n} = useTranslation();
+
 
     const initialValues: MarkerValues = {
         description: "",
@@ -41,15 +44,15 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) => {
     //radio button values
     const data = [
         {
-            label: 'green marker',
+            label: t("greenMarker"),
             color: 'green'
         },
         {
-            label: 'yellow marker',
+            label: t("yellowMarker"),
             color: 'yellow'
         },
         {
-            label: 'red marker',
+            label: t("redMarker"),
             color: 'red'
         },
     ];
@@ -95,8 +98,8 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) => {
                 <Formik initialValues={initialValues} onSubmit={values => handleSubmit(values)}>
                     {({handleSubmit}) => (
                         <View>
-                            <InputField name='description' placeholder='Description'/>
-                            <CustomButton title="Add marker" onPress={handleSubmit}/>
+                            <InputField name='description' placeholder={t("description")}/>
+                            <CustomButton title={t("addMarker")} onPress={handleSubmit}/>
                         </View>
                     )}
                 </Formik>

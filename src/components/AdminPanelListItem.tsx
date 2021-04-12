@@ -8,6 +8,7 @@ import { NotificationTypes } from '../store/app/types';
 import { removeMarker } from '../store/markers/actions';
 import { MarkerType } from '../store/markers/types';
 import CustomButton from './CustomButton';
+import {useTranslation} from "react-i18next";
 
 const styles = StyleSheet.create({
     container: {
@@ -35,18 +36,20 @@ interface Props {
 const AdminPanelListItem: React.FC<Props> = ({ item }) => {
     const dispatch = useDispatch();
 
+    const {t, i18n} = useTranslation();
+
     const confirm = (itemId: string | undefined) => {
         if (itemId) {
-            Alert.alert('Deleting a marker', 'Are you sure you want to delete this marker?', [
+            Alert.alert(t("deletingMarker"), t("markerDeleteVerification"), [
                 {
-                    text: 'Cancel', onPress: () => console.log('Dismissed'), style: 'cancel'
+                    text: t("cancel"), onPress: () => console.log('Dismissed'), style: 'cancel'
                 },
                 {
-                    text: 'Delete', onPress: () => dispatch(removeMarker(itemId)), style: 'default'
+                    text: t("delete"), onPress: () => dispatch(removeMarker(itemId)), style: 'default'
                 }
             ]);
         } else {
-            dispatch(setNotificationMessage('This item does not have an ID', NotificationTypes.Error ,5));
+            dispatch(setNotificationMessage(t("noID"), NotificationTypes.Error ,5));
         }
     }
 
@@ -54,12 +57,12 @@ const AdminPanelListItem: React.FC<Props> = ({ item }) => {
         <View style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.description}>
-                    <Text>Type: {item.color}</Text>
-                    <Text>Description: {item.description}</Text>
+                    <Text>{t("type")}: {item.color}</Text>
+                    <Text>{t("description")}: {item.description}</Text>
                 </View>
                 {item.id &&
-                <View style={styles.button}>   
-                    <CustomButton transparent danger onPress={() => confirm(item.id)} title="Delete" />
+                <View style={styles.button}>
+                    <CustomButton transparent danger onPress={() => confirm(item.id)} title={t("delete")} />
                 </View>}
             </View>
         </View>

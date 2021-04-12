@@ -16,6 +16,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {MarkerType} from "../store/markers/types";
 import {getMarkers} from "../store/markers/actions";
 import NotificationContainer from '../components/NotificationContainer';
+import {useTranslation} from "react-i18next";
 
 
 const styles = StyleSheet.create({
@@ -56,6 +57,9 @@ const Map: React.FC = () => {
      * @param marker
      * @param index
      */
+
+    const {t, i18n} = useTranslation();
+
     const renderMarker = (marker: MarkerType, index: number) => {
         if (marker.color === 'red') {
             return (
@@ -113,7 +117,7 @@ const Map: React.FC = () => {
                     renderMarker(marker, index)
                 ))}
                 <Marker
-                    title={'you'}
+                    title={t("you")}
                     image={require('../marker-icons/user_pin.png')}
                     coordinate={{
                         latitude: location.coords.latitude,

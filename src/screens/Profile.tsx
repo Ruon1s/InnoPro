@@ -73,14 +73,14 @@ const Profile: React.FC<Props> = ({navigation}) => {
     const user = useSelector((state: RootState) => state.user);
     const city = useSelector((state: RootState) => state.location.city)
     const {loading, notification} = useSelector((state: RootState) => state.app);
-    const { 
-        isEditing, 
-        imageUri, 
-        initialValues, 
+    const {
+        isEditing,
+        imageUri,
+        initialValues,
         setIsEditing,
-        pickImage, 
-        handleUserUpdate, 
-        cancelEdit 
+        pickImage,
+        handleUserUpdate,
+        cancelEdit
     } = useProfile(user);
 
     const {t, i18n} = useTranslation();
@@ -136,7 +136,7 @@ const Profile: React.FC<Props> = ({navigation}) => {
                         <Text style={styles.titleText}>{t("name")}: {user.fullName}</Text>
                         <Text style={styles.titleText}>{t("email")}: {user.email} </Text>
                         <Text style={styles.titleText}>{t("joined")}: {new Date(user.createdAt).toDateString()}</Text>
-                        {city && city !== '' && <Text style={styles.titleText}>Current Location: {city}</Text>}
+                        {city && city !== '' && <Text style={styles.titleText}>{t("currentLocation")} :  {city}</Text>}
                     </>}
                 <View style={styles.signOutContainer}>
                     {!isEditing &&

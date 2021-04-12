@@ -1,10 +1,10 @@
-
 {
   "save": "Save",
   "cancel": "Cancel",
   "changeProfilePic": "Change profile picture",
   "hello": "Hello",
   "weather": "Weather",
+  "news": "News",
   "announcements": "Announcements",
   "events": "Events",
   "publicTransport": "Public Transportation",
@@ -25,5 +25,25 @@
   "pressure": "Pressure",
   "wind": "Wind",
   "noEvents": "No events in the area right now",
-  "noUrl": "No website for the event"
+  "noUrl": "No website for the event",
+  "searchHint": "Search here...",
+  "you": "You",
+  "greenMarker": "Green Marker",
+  "yellowMarker": "Yellow Marker",
+  "redMarker": "Red Marker",
+  "addMarker": "Add Marker",
+  "description": "Description",
+  "sendNotifToAllUsers": "Send notification to all users",
+  "notifTitle": "Notification title",
+  "notifMessage": "Notification message",
+  "sendNotif": "Send Notification",
+  "resetFields": "Reset fields",
+  "clearMarker": "Clear marker",
+  "delete": "delete",
+  "currentLocation": "Your current location",
+  "refetchlocation": "Refetch your location",
+  "deletingMarker": "Deleting Marker",
+  "markerDeleteVerification": "Are you sure you want to delete this marker?",
+  "noID": "This item does not have valid ID",
+  "type": "tyyppi"
 }

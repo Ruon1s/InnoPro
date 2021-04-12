@@ -5,19 +5,22 @@ import {StatusBar, FlatList, StyleSheet, TextInput, Text, View} from "react-nati
 import SearchList from "../components/SearchList";
 import HeaderText from "../components/HeaderText";
 import SearchBar from "react-native-elements";
+import {useTranslation} from "react-i18next";
 
 const Search: React.FC = () => {
 
+    const {t, i18n} = useTranslation();
+
     return (
         <View style={styles.container}>
-            <HeaderText text={"Search"}/>
+            <HeaderText text={t("search")}/>
             <TextInput
                 style={styles.textInputStyle}
                 //Add search functionality here or something
                 //onChangeText={text => SearchFilter(text)}
                 //value={this.state.text}
                 underlineColorAndroid="transparent"
-                placeholder="Search Here..."
+                placeholder={t("searchHint")}
             />
             <SearchList data={services}/>
         </View>
