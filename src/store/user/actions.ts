@@ -52,6 +52,7 @@ export const signIn = (
             dispatch(setNotificationMessage('User not found', NotificationTypes.Error, 5));
         }
     } catch (error) {
+        dispatch(toggleLoading(false));
         dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
     }
 }

@@ -39,3 +39,9 @@ export const removeHTMLTags = (text: string | undefined): string => {
   }
   return 'No content';
 }
+
+export const getContentLanguage = (langCode: string): number => {
+  if (langCode === 'en') return 2;
+  if (langCode === 'fi') return 1;
+  return 2;
+}

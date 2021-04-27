@@ -42,7 +42,7 @@ const useProfile = (user: UserState) => {
             }
         }
         } catch (error) {
-        dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
+            dispatch(setNotificationMessage(error.message, NotificationTypes.Error, 5));
         }
     }
 

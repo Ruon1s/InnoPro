@@ -1,3 +1,4 @@
+//A General card item that is mostly used in the feed screen
 import React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 

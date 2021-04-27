@@ -1,3 +1,4 @@
+//A Text component for header text, mostly used in the Feed screen/Admin panel
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 

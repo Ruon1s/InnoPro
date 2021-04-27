@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import { Formik } from 'formik';
 import InputField from '../components/InputField';
@@ -12,8 +12,6 @@ import AdminPanelListItem from '../components/AdminPanelListItem';
 import { GroupMessageValues } from '../types';
 import useAdmin from '../hooks/adminHook';
 import NotificationContainer from '../components/NotificationContainer';
-import { setNotificationMessage } from '../store/app/actions';
-import { NotificationTypes } from '../store/app/types';
 import { getCurrentLocationName } from '../store/location/actions';
 import {useTranslation} from "react-i18next";
 
@@ -76,36 +74,37 @@ const AdminPanel: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderText text={t("sendNotifToAllUsers")} />
-            <Formik
-                initialValues={initialValues}
-                onSubmit={values => sendGroupNotification(values)}
-                validationSchema={validationSchema}
-            >
-                {({ handleSubmit, resetForm }) => (
-                <>
-                    <InputField name="title" placeholder={t("notifTitle")} />
-                    <InputField name="message" placeholder={t("notifMessage")} />
-                    <CustomButton title={t("sendNotif")} onPress={handleSubmit} />
-                    <CustomButton title={t("resetFields")} transparent danger onPress={resetForm} />
-                </>
-                )}
-            </Formik>
+            <View style={{flex: 1}}>
+                <HeaderText text={t("sendNotifToAllUsers")} />
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={values => sendGroupNotification(values)}
+                    validationSchema={validationSchema}
+                >
+                    {({ handleSubmit, resetForm }) => (
+                    <>
+                        <InputField name="title" placeholder={t("notifTitle")} />
+                        <InputField name="message" placeholder={t("notifMessage")} />
+                        <CustomButton title={t("sendNotif")} onPress={handleSubmit} />
+                        <CustomButton title={t("resetFields")} transparent danger onPress={resetForm} />
+                    </>
+                    )}
+                </Formik>
+            </View>
             <View style={styles.divider} />
-            <HeaderText text={t("clearMarker")} />
-            <TextInput placeholder={t("search")} onChangeText={handleSearch} style={styles.inputField} />
-            <FlatList
-                contentContainerStyle={styles.flatList}
-                data={filteredMarkers}
-                keyExtractor={item => `${item.id!}`}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                renderItem={({ item }) => <AdminPanelListItem item={item} />}
-                ListEmptyComponent={() => <Text style={styles.emptyListText}>No markers found</Text>}
-            />
-            <View style={styles.divider} />
-            <HeaderText text={t("currentLocation")} />
-            <Text style={styles.cityText}>{city || 'Can not get the location'}</Text>
-            <CustomButton title={t("refetchLocation")} onPress={() => dispatch(getCurrentLocationName(latitude, longitude))} />
+            <View style={{flex: 1}}>
+                <HeaderText text={t("clearMarker")} />
+                <TextInput placeholder={t("search")} onChangeText={handleSearch} style={styles.inputField} />
+
+                <FlatList
+                    contentContainerStyle={styles.flatList}
+                    data={filteredMarkers}
+                    keyExtractor={item => `${item.id!}`}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    renderItem={({ item }) => <AdminPanelListItem item={item} />}
+                    ListEmptyComponent={() => <Text style={styles.emptyListText}>No markers found</Text>}
+                />
+            </View>
             {notification.message && <NotificationContainer type={notification.type} message={notification.message} />}
         </View>
     );

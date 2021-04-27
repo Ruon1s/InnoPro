@@ -34,10 +34,15 @@ const TabNavigator: React.FC = () => {
     const dispatch = useDispatch();
     const location = useSelector((state: RootState) => state.location);
     const user = useSelector((state: RootState) => state.user);
+    const {t, i18n} = useTranslation();
+    const feedHeader = t('feed');
+    const mapHeader = t('map');
+    const searchHeader = t('search');
+    const profileHeader = t('profile');
 
     useEffect(() => {
         dispatch(getLocation());
-        dispatch(fetchNews());
+        dispatch(fetchNews(i18n.language));
         dispatch(fetchAnnouncements());
         dispatch(getMarkers());
 
@@ -72,12 +77,6 @@ const TabNavigator: React.FC = () => {
             }
         });
     }, []);
-
-    const {t, i18n} = useTranslation();
-    const feedHeader = t('feed');
-    const mapHeader = t('map');
-    const searchHeader = t('search');
-    const profileHeader = t('profile');
 
     return (
         <Tab.Navigator

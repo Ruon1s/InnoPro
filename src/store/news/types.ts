@@ -31,7 +31,7 @@ export interface NewsDetails {
     value: {
         Date: string | null;
         Id: number;
-        Name: "Name" | "LiftContent" | "Content" | "";
+        Name: "Name" | "LiftContent" | "Content" | "LiftPicture" | "";
         Text: string;
     }[];
 }

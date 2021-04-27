@@ -9,6 +9,8 @@ import HeaderText from '../components/HeaderText';
 import { RootState } from '../store';
 import NotificationContainer from '../components/NotificationContainer';
 import {useTranslation} from 'react-i18next'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList } from '../navigators/StackNavigator';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,7 +24,11 @@ const styles = StyleSheet.create({
     }
 });
 
-const Feed: React.FC = () => {
+interface Props {
+    navigation: StackNavigationProp<StackParamList, "Main">;
+}
+
+const Feed: React.FC<Props> = ({ navigation }) => {
     const notification = useSelector((state: RootState) => state.app.notification);
     const user = useSelector((state: RootState) => state.user);
     const announcements = useSelector((state: RootState) => state.announcements);
@@ -39,7 +45,7 @@ const Feed: React.FC = () => {
                 <>
                     <HeaderText text={t("news")} />
                     <Text style={styles.infoText}>Swipe left to see more... ({news.value.length} items)</Text>
-                    <List horizontal news={news} />
+                    <List navigation={navigation} horizontal news={news} />
                 </>}
                 {announcements.value.length > 0 &&
                 <>

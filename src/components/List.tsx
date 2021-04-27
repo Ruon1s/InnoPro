@@ -1,7 +1,9 @@
 //Flatlist for mainly the sideways scrolling stuff
 
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { FlatList, Dimensions } from 'react-native';
+import { StackParamList } from '../navigators/StackNavigator';
 import { AnnouncementState } from '../store/announcements/types';
 import { MarkerState } from '../store/markers/types';
 import { NewsState } from '../store/news/types';
@@ -16,13 +18,14 @@ interface Props {
     announcements?: AnnouncementState;
     markers?: MarkerState;
     horizontal?: boolean;
+    navigation?: StackNavigationProp<StackParamList, "Main">;
 }
 
-const List: React.FC<Props> = ({ news, announcements, markers, horizontal }) => {
+const List: React.FC<Props> = ({ news, announcements, markers, horizontal, navigation }) => {
 
     const renderItem = (item: any): JSX.Element | null => {
         if (news) {
-            return <NewsItem news={item} />
+            return <NewsItem navigation={navigation!} news={item} />
         }
 
         if (announcements) {
