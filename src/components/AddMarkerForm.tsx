@@ -44,15 +44,15 @@ const AddMarkerForm: React.FC<Props> = ({visibility, onBackdropPress}) => {
     //radio button values
     const data = [
         {
-            label: t("greenMarker"),
+            label: t("Good"),
             color: 'green'
         },
         {
-            label: t("yellowMarker"),
+            label: t("Needs Attention"),
             color: 'yellow'
         },
         {
-            label: t("redMarker"),
+            label: t("Critical"),
             color: 'red'
         },
     ];
