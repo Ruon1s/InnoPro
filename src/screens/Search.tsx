@@ -1,28 +1,27 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {services} from "../mock-data/services.json";
-import InputField from "../components/InputField";
 import {StatusBar, FlatList, StyleSheet, TextInput, Text, View} from "react-native";
 import SearchList from "../components/SearchList";
 import HeaderText from "../components/HeaderText";
-import SearchBar from "react-native-elements";
 import {useTranslation} from "react-i18next";
 
 const Search: React.FC = () => {
 
     const {t, i18n} = useTranslation();
+    const [searchQuery, setSearchQuery] = useState('');
+    const filterServices = searchQuery !== '' ? services.filter(service => service.name.toLowerCase().includes(searchQuery.toLowerCase())) : services;
 
     return (
         <View style={styles.container}>
             <HeaderText text={t("search")}/>
             <TextInput
                 style={styles.textInputStyle}
-                //Add search functionality here or something
-                //onChangeText={text => SearchFilter(text)}
-                //value={this.state.text}
+                value={searchQuery}
+                onChangeText={text => setSearchQuery(text)}
                 underlineColorAndroid="transparent"
                 placeholder={t("searchHint")}
             />
-            <SearchList data={services}/>
+            <SearchList data={filterServices}/>
         </View>
     );
 };
